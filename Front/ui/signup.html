@@ -1,0 +1,266 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Registration Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="bg-white shadow">
+      <div
+        class="container mx-auto flex justify-between items-center py-4 px-6"
+      >
+        <div class="flex items-center">
+          <img
+            alt="Logo"
+            class="h-24"
+            height="250"
+            width="150"
+            src="../img/logo-noi-that.jpg"
+          />
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input
+              class="border rounded-full py-2 px-4 pl-10 w-64"
+              placeholder="Tìm kiếm sản phẩm"
+              type="text"
+            />
+            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+          </div>
+          <div class="flex items-center space-x-4">
+            <i class="fas fa-shopping-cart text-gray-600"></i>
+            <i class="fas fa-heart text-gray-600"></i>
+            <i class="fas fa-user text-gray-600"></i>
+          </div>
+        </div>
+      </div>
+      <nav class="bg-white shadow mt-4 sticky top-0 z-50">
+        <div
+          class="container mx-auto flex justify-between items-center py-2 px-6"
+        >
+          <div class="flex justify-between w-full">
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Cửa hàng
+            </a>
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Tin tức
+            </a>
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Giới thiệu
+            </a>
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Mẫu thiết kế
+            </a>
+            <a
+              class="bg-[#96644b] hover:bg-[#8a4a3a] text-white py-2 px-4 rounded-full flex-1 text-center text-wegith-bold"
+              href="#"
+            >
+              SALES
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="bg-white flex items-center justify-center min-h-screen">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-center">
+          <div class="w-full md:w-1/2 flex flex-col items-center">
+            <form class="w-full max-w-sm">
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="username"
+                >
+                  Tên tài khoản
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="username"
+                  placeholder="Vui lòng nhập tên tài khoản"
+                  type="text"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="fullname"
+                >
+                  Họ và tên
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="fullname"
+                  placeholder="Vui lòng nhập họ và tên"
+                  type="text"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="email"
+                >
+                  Email
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="email"
+                  placeholder="Vui lòng nhập email"
+                  type="email"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="phone"
+                >
+                  Số điện thoại
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="phone"
+                  placeholder="Vui lòng nhập số điện thoại"
+                  type="text"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="password"
+                >
+                  Mật khẩu
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="password"
+                  placeholder="Vui lòng nhập mật khẩu"
+                  type="password"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="gender"
+                >
+                  Giới tính
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="gender"
+                  placeholder="Vui lòng chọn giới tính"
+                  type="text"
+                />
+              </div>
+              <div class="mb-6">
+                <button
+                  class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                  type="button"
+                >
+                  Đăng Ký
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <hr class="w-full border-gray-300" />
+                <span class="mx-2 text-gray-500"> Hoặc </span>
+                <hr class="w-full border-gray-300" />
+              </div>
+              <div class="mt-4 text-center">
+                <p class="text-gray-700">
+                  Bạn chưa có tài khoản?
+                  <a class="text-red-500" href="#"> Đăng nhập </a>
+                  hoặc
+                  <a class="text-red-500" href="#"> quay lại </a>
+                </p>
+              </div>
+            </form>
+          </div>
+          <div class="w-full md:w-1/2 mt-8 md:mt-0 flex justify-center">
+            <img
+              alt="Person with a tattoo of a heart with 'Mom' written on it on their arm"
+              class="rounded"
+              height="500"
+              src="https://storage.googleapis.com/a1aa/image/Zb-fT17KvgwXUQApUiLZ1fF9ybIKVuUCvcZY8xB0yKQ.jpg"
+              width="500"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <h3 class="text-lg font-bold mb-4">Giới thiệu</h3>
+          <ul>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Về chúng tôi </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Chất lượng sản phẩm </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Sứ mệnh và giá trị </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Dịch vụ</h3>
+          <ul>
+            <li>
+              <a class="hover:text-gray-400" href="#"> giới thiệu nội thất </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Tư vấn ý tưởng </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Thiết kế nội thất </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Địa chỉ và thông tin liên hệ</h3>
+          <p>Địa chỉ: Q12, Hồ Chí Minh</p>
+          <p>Số điện thoại: 0123456789</p>
+          <p>Email: Decor@.com</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Kết nối với chúng tôi</h3>
+          <div class="space-y-2">
+            <a class="flex items-center hover:text-gray-400" href="#">
+              <i class="fab fa-facebook mr-2"></i>
+              <span>Facebook</span>
+            </a>
+            <a class="flex items-center hover:text-gray-400" href="#">
+              <i class="fab fa-instagram mr-2"></i>
+              <span>Instagram</span>
+            </a>
+            <a class="flex items-center hover:text-gray-400" href="#">
+              <i class="fab fa-youtube mr-2"></i>
+              <span>YouTube</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-12">
+        <p>© 2025 – Copyright belongs to Decor</p>
+      </div>
+    </footer>
+  </body>
+</html>

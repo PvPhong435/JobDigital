@@ -1,0 +1,379 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Checkout Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body >
+    <header class="bg-white shadow">
+      <div
+        class="container mx-auto flex justify-between items-center py-4 px-6"
+      >
+        <div class="flex items-center">
+          <img
+            alt="Logo"
+            class="h-24"
+            height="250"
+            width="150"
+            src="../img/logo-noi-that.jpg"
+          />
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input
+              class="border rounded-full py-2 px-4 pl-10 w-64"
+              placeholder="Tìm kiếm sản phẩm"
+              type="text"
+            />
+            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+          </div>
+          <div class="flex items-center space-x-4">
+            <i class="fas fa-shopping-cart text-gray-600"></i>
+            <i class="fas fa-heart text-gray-600"></i>
+            <i class="fas fa-user text-gray-600"></i>
+          </div>
+        </div>
+      </div>
+      <nav class="bg-white shadow mt-4 sticky top-0 z-50">
+        <div
+          class="container mx-auto flex justify-between items-center py-2 px-6"
+        >
+          <div class="flex justify-between w-full">
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Cửa hàng
+            </a>
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Tin tức
+            </a>
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Giới thiệu
+            </a>
+            <a
+              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
+              href="#"
+            >
+              Mẫu thiết kế
+            </a>
+            <a
+              class="bg-[#96644b] hover:bg-[#8a4a3a] text-white py-2 px-4 rounded-full flex-1 text-center text-wegith-bold"
+              href="#"
+            >
+              SALES
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container mx-auto p-4">
+      <nav class="text-sm text-gray-500 mb-4">
+        <a class="hover:underline" href="#"> GIỎ HÀNG </a>
+        &gt;
+        <a class="hover:underline" href="#"> CHI TIẾT THANH TOÁN </a>
+        &gt;
+        <a class="hover:underline" href="#"> HOÀN THÀNH ĐƠN HÀNG </a>
+      </nav>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2">
+          <div class="bg-white p-6 rounded-lg shadow-md mb-4">
+            <h2 class="text-xl font-semibold text-[#96644b] mb-4">
+              Thông tin liên lạc
+            </h2>
+            <div class="flex justify-between items-center mb-4">
+              <p class="text-sm text-gray-600">
+                Chúng tôi sẽ sử dụng email này để gửi cho bạn chi tiết và cập
+                nhật về đơn hàng của bạn.
+              </p>
+              <a class="text-sm text-[#96644b] hover:underline" href="#">
+                Đăng nhập
+              </a>
+            </div>
+            <input
+              class="w-full p-2 border border-gray-300 rounded mb-4"
+              placeholder="Địa chỉ email"
+              type="email"
+            />
+            <div class="flex items-center mb-4">
+              <input class="mr-2" id="create-account" type="checkbox" />
+              <label class="text-sm text-gray-600" for="create-account">
+                Tạo tài khoản với Góc xinh decor
+              </label>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md mb-4">
+            <h2 class="text-xl font-semibold text-[#96644b] mb-4">
+              Địa chỉ giao hàng
+            </h2>
+            <p class="text-sm text-gray-600 mb-4">
+              Nhập địa chỉ nơi bạn muốn đơn hàng của mình được giao.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm text-gray-600 mb-1" for="country">
+                  Quốc gia/Khu vực
+                </label>
+                <select
+                  class="w-full p-2 border border-gray-300 rounded"
+                  id="country"
+                >
+                  <option>Việt Nam</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm text-gray-600 mb-1" for="city">
+                  Tỉnh/Thành phố
+                </label>
+                <select
+                  class="w-full p-2 border border-gray-300 rounded"
+                  id="city"
+                >
+                  <option>Hà Nội</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <input
+                class="w-full p-2 border border-gray-300 rounded"
+                placeholder="Tên"
+                type="text"
+              />
+              <input
+                class="w-full p-2 border border-gray-300 rounded"
+                placeholder="Họ"
+                type="text"
+              />
+            </div>
+            <input
+              class="w-full p-2 border border-gray-300 rounded mb-4"
+              placeholder="Địa chỉ"
+              type="text"
+            />
+            <input
+              class="w-full p-2 border border-gray-300 rounded mb-4"
+              placeholder="+ Thêm căn hộ, phòng, v.v."
+              type="text"
+            />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <input
+                class="w-full p-2 border border-gray-300 rounded"
+                placeholder="Mã bưu chính"
+                type="text"
+              />
+              <input
+                class="w-full p-2 border border-gray-300 rounded"
+                placeholder="Số điện thoại (tùy chọn)"
+                type="text"
+              />
+            </div>
+            <div class="flex items-center mb-4">
+              <input class="mr-2" id="billing-address" type="checkbox" />
+              <label class="text-sm text-gray-600" for="billing-address">
+                Sử dụng cùng địa chỉ cho thanh toán
+              </label>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md mb-4">
+            <h2 class="text-xl font-semibold text-[#96644b] mb-4">
+              Tùy chọn giao hàng
+            </h2>
+            <div class="flex items-center mb-4">
+              <input
+                class="mr-2"
+                id="free-shipping"
+                name="shipping"
+                type="radio"
+              />
+              <label
+                class="text-sm text-gray-600 flex-grow"
+                for="free-shipping"
+              >
+                Free shipping
+              </label>
+              <span class="text-sm text-gray-600"> MIỄN PHÍ </span>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md mb-4">
+            <h2 class="text-xl font-semibold text-[#96644b] mb-4">
+              Tùy chọn thanh toán
+            </h2>
+            <div class="flex items-center mb-4">
+              <input
+                class="mr-2"
+                id="bank-transfer"
+                name="payment"
+                type="radio"
+              />
+              <label
+                class="text-sm text-gray-600 flex-grow"
+                for="bank-transfer"
+              >
+                Chuyển khoản ngân hàng
+              </label>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">
+              Thực hiện thanh toán vào ngay tài khoản ngân hàng của chúng tôi.
+              Vui lòng sử dụng Mã đơn hàng của bạn trong phần Nội dung thanh
+              toán. Đơn hàng sẽ được giao sau khi tiền đã chuyển.
+            </p>
+            <div class="flex items-center mb-4">
+              <input
+                class="mr-2"
+                id="cash-on-delivery"
+                name="payment"
+                type="radio"
+              />
+              <label
+                class="text-sm text-gray-600 flex-grow"
+                for="cash-on-delivery"
+              >
+                Kiểm tra thanh toán
+              </label>
+            </div>
+            <div class="flex items-center mb-4">
+              <input class="mr-2" id="save-info" type="checkbox" />
+              <label class="text-sm text-gray-600" for="save-info">
+                Thêm ghi chú cho đơn hàng của bạn
+              </label>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mb-4">
+            Bằng cách tiến hành mua hàng, bạn đồng ý với Điều khoản và điều kiện
+            và Chính sách bảo mật của chúng tôi
+          </p>
+          <button class="w-full bg-black text-white p-4 rounded-lg">
+            ĐẶT HÀNG
+          </button>
+        </div>
+        <div>
+          <div class="bg-white p-6 rounded-lg shadow-md mb-4">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+              Tóm tắt đơn hàng
+            </h2>
+            <div class="flex items-center mb-4">
+              <img
+                alt="Product image"
+                class="w-16 h-16 mr-4"
+                height="60"
+                src="https://flexhouse.vn/wp-content/uploads/2024/12/Ghe-ngoi-tiep-khach-bang-go-co-tay-vin-ZW8483-4-430x430.jpg"
+                width="60"
+              />
+              <div>
+                <p class="text-sm text-gray-800">
+                  Tủ gỗ nhỏ hai ngăn đựng đồ đa năng chất liệu MDF mã TA04
+                </p>
+                <p class="text-sm text-gray-600">1 x 978.000₫</p>
+              </div>
+            </div>
+            <div class="border-t border-gray-300 pt-4">
+              <p class="text-sm text-gray-600 mb-2">Tạm tính</p>
+              <p class="text-sm text-gray-800 mb-2">978.000₫</p>
+              <p class="text-sm text-gray-600 mb-2">Chuyển đến</p>
+              <p class="text-sm text-gray-800 mb-2">MIỄN PHÍ</p>
+              <p class="text-sm text-gray-600 mb-2">
+                Giao hàng đến Hà Nội, Việt Nam
+              </p>
+            </div>
+            <div class="border-t border-gray-300 pt-4">
+              <p class="text-lg font-semibold text-gray-800">Tổng</p>
+              <p class="text-lg font-semibold text-gray-800">978.000₫</p>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+              Thêm một phiếu giảm giá
+            </h2>
+            <input
+              class="w-full p-2 border border-gray-300 rounded mb-4"
+              placeholder="Mã giảm giá"
+              type="text"
+            />
+            <button class="w-full bg-[#96644b] text-white p-2 rounded-lg">
+              Áp dụng
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 text-left">
+        <p class="text-yellow-500">
+          <i class="fas fa-star"> </i>
+          <i class="fas fa-star"> </i>
+          <i class="fas fa-star"> </i>
+          <i class="fas fa-star"> </i>
+          <i class="fas fa-star"> </i>
+        </p>
+        <p class="text-sm text-gray-600">5/5 (1 Review)</p>
+      </div>
+    </div>
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <h3 class="text-lg font-bold mb-4">Giới thiệu</h3>
+          <ul>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Về chúng tôi </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Chất lượng sản phẩm </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Sứ mệnh và giá trị </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Dịch vụ</h3>
+          <ul>
+            <li>
+              <a class="hover:text-gray-400" href="#"> giới thiệu nội thất </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Tư vấn ý tưởng </a>
+            </li>
+            <li>
+              <a class="hover:text-gray-400" href="#"> Thiết kế nội thất </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Địa chỉ và thông tin liên hệ</h3>
+          <p>Địa chỉ: Q12, Hồ Chí Minh</p>
+          <p>Số điện thoại: 0123456789</p>
+          <p>Email: Decor@.com</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Kết nối với chúng tôi</h3>
+          <div class="space-y-2">
+            <a class="flex items-center hover:text-gray-400" href="#">
+              <i class="fab fa-facebook mr-2"></i>
+              <span>Facebook</span>
+            </a>
+            <a class="flex items-center hover:text-gray-400" href="#">
+              <i class="fab fa-instagram mr-2"></i>
+              <span>Instagram</span>
+            </a>
+            <a class="flex items-center hover:text-gray-400" href="#">
+              <i class="fab fa-youtube mr-2"></i>
+              <span>YouTube</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-12">
+        <p>© 2025 – Copyright belongs to Decor</p>
+      </div>
+    </footer>
+  </body>
+</html>
