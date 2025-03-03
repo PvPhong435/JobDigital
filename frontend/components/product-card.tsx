@@ -1,0 +1,61 @@
+import Link from "next/link"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Heart } from 'lucide-react'
+import testimg from '../images/1519.jpg'
+
+interface ProductCardProps {
+  title: string
+  image: string
+  price: number
+  originalPrice?: number
+  id: string
+}
+
+export function ProductCard({ title, image, price, originalPrice, id }: ProductCardProps) {
+  return (
+    <div className="group relative bg-white rounded-lg shadow-md overflow-hidden">
+      {originalPrice && (
+        <div className="absolute top-2 left-2 z-10 bg-blue-600 text-white px-2 py-1 text-sm rounded">
+          Giảm giá!
+        </div>
+      )}
+      <div className="relative aspect-square">
+        <Image
+          src={testimg}
+          alt={title}
+          width={400}
+          height={400}
+          layout="responsive"
+          quality={90}
+          priority
+          // fill
+          className="object-cover transition-transform group-hover:scale-105"
+        />
+      </div>
+      <div className="p-4 space-y-2">
+        <h3 className="font-medium text-sm">{title}</h3>
+        <div className="space-y-1">
+          <div className="text-lg font-bold">
+            {price.toLocaleString()}đ
+          </div>
+          {originalPrice && (
+            <div className="text-sm text-muted-foreground line-through">
+              {originalPrice.toLocaleString()}đ
+            </div>
+          )}
+        </div>
+        <div className="pt-2 space-y-2">
+          <Button className="w-full" variant="default">
+            MUA NGAY
+          </Button>
+          <button className="w-full text-sm text-blue-600 hover:underline flex items-center justify-center gap-1">
+            <Heart className="w-4 h-4" />
+            Add to wishlist
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+

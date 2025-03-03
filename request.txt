@@ -1,0 +1,16 @@
+trang chủ
+đăng nhập
+đăng ký
+thông tin sản phẩm
+chi tiết sản phẩm
+giỏ hàng
+thanh toán
+quên mật khẩu
+thông tin tài khoản
+giới thiệu, liên hệ
+
+**các chức năng phụ
+tìm kiếm sản phẩm
+sắp xếp sản phẩm
+báo cáo thống kê
+thanh toán gửi mail

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Sản Phẩm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer src="script.js"></script>
+    <style>
+        body { background-color: #e3f2fd; }
+        .product-container { max-width: 900px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        .product-image img { width: 100%; border-radius: 10px; }
+        .old-price { text-decoration: line-through; color: gray; }
+        .similar-products .product-item { border: 1px solid #ddd; padding: 10px; margin: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="product-container">
+        <div class="row">
+            <!-- Ảnh sản phẩm -->
+            <div class="col-md-5">
+                <img id="product-image" src="img/default.jpg" alt="Ảnh sản phẩm">
+            </div>
+
+            <!-- Thông tin sản phẩm -->
+            <div class="col-md-7">
+                <h3 id="product-name"></h3>
+                <p><span class="old-price" id="old-price"></span> <strong id="product-price"></strong></p>
+                <p id="product-description"></p>
+                <label for="quantity">Số lượng:</label>
+                <input type="number" id="quantity" class="form-control w-25 d-inline" value="1" min="1">
+                <button class="btn btn-primary mt-3" onclick="addToCart()">MUA NGAY</button>
+                <button class="btn btn-secondary mt-3" onclick="addToWishlist()">Thêm vào Wishlist</button>
+            </div>
+        </div>
+        
+        <!-- Mô tả chi tiết -->
+        <div class="my-5">
+            <h3>Mô Tả Chi Tiết</h3>
+            <p id="product-full-description"></p>
+        </div>
+        
+        <!-- Sản phẩm tương tự -->
+        <div class="my-5">
+            <h3>Sản Phẩm Tương Tự</h3>
+            <div class="row" id="similar-products"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const BASE_URL = "http://localhost:8080";
+
+    // 📌 Lấy `id` và `category` từ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get("id");
+    const categoryId = urlParams.get("category");
+
+    if (productId) {
+        // 📌 Fetch chi tiết sản phẩm
+        fetch(`${BASE_URL}/api/products/${productId}`)
+            .then(response => response.json())
+            .then(product => {
+                document.getElementById("product-image").src = `img/${product.imageURL}`;
+                document.getElementById("product-name").innerText = product.productName;
+                document.getElementById("old-price").innerText = (product.price + 500000).toLocaleString() + " VND";
+                document.getElementById("product-price").innerText = product.price.toLocaleString() + " VND";
+                document.getElementById("product-description").innerText = product.shortDescription;
+                document.getElementById("product-full-description").innerText = product.fullDescription;
+            });
+
+        // 📌 Fetch sản phẩm tương tự
+        fetch(`${BASE_URL}/api/products/category/${categoryId}`)
+            .then(response => response.json())
+            .then(products => {
+                const container = document.getElementById("similar-products");
+                container.innerHTML = "";
+                products.forEach(product => {
+                    if (product.productID != productId) {
+                        container.innerHTML += `
+                            <div class="col-md-3 product-item">
+                                <div class="border p-3 rounded text-center">
+                                    <img src="img/${product.imageURL}" alt="${product.productName}" class="w-100">
+                                    <h5>${product.productName}</h5>
+                                    <p><span class="old-price">${(product.price + 500000).toLocaleString()} VND</span> <strong>${product.price.toLocaleString()} VND</strong></p>
+                                    <button class="btn btn-primary" onclick="redirectToDetail(${product.productID}, ${categoryId})">Xem chi tiết</button>
+                                </div>
+                            </div>`;
+                    }
+                });
+            });
+    }
+
+    function addToCart() {
+        alert("Sản phẩm đã được thêm vào giỏ hàng!");
+    }
+
+    function addToWishlist() {
+        alert("Sản phẩm đã được thêm vào wishlist!");
+    }
+</script>
+
+</body>
+</html>
