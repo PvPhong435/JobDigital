@@ -46,7 +46,7 @@ public class Product {
 //    private List<Cart> carts; // Liên kết ngược với Cart
     
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryid", foreignKey = @ForeignKey(name = "FK_Product_Category"))
     private Category category;
 }

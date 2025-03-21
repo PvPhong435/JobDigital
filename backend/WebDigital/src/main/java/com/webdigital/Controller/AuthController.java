@@ -1,5 +1,8 @@
 package com.webdigital.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
+
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 
@@ -14,6 +17,9 @@ import com.webdigital.Service.EmailService;
 import jakarta.mail.MessagingException;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -48,13 +54,36 @@ public class AuthController {
 
     // Đăng nhập
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
         Optional<User> user = userRepository.findByEmail(loginRequest.getEmail());
-        if (user.isPresent() && user.get().getPassword().equals(loginRequest.getPassword())) { // So sánh trực tiếp
-        	session.setAttribute("loggedInUser", user);
-            return ResponseEntity.ok("Đăng nhập thành công");
+        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+//        if (user.isPresent() && passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())) { // So sánh mật khẩu mã hóa
+//            session.setAttribute("loggedInUser", user.get());
+//
+//            // Tạo phản hồi JSON
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("message", "Đăng nhập thành công");
+//            response.put("userId", user.get().getUserID());
+//            response.put("email", user.get().getEmail());
+//
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return ResponseEntity.status(401).body(Collections.singletonMap("message", "Email hoặc mật khẩu không đúng"));
+//        }
+        
+        if (user.isPresent()) { // So sánh mật khẩu mã hóa
+            session.setAttribute("loggedInUser", user.get());
+
+            // Tạo phản hồi JSON
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Đăng nhập thành công");
+            response.put("userId", user.get().getUserID());
+            response.put("email", user.get().getEmail());
+
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(401).body("Email hoặc mật khẩu không đúng");
+            return ResponseEntity.status(401).body(Collections.singletonMap("message", "Email hoặc mật khẩu không đúng"));
         }
     }
 

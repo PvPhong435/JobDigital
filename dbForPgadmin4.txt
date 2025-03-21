@@ -186,3 +186,21 @@ INSERT INTO Statistics (Date, TotalSales, TotalOrders, NewCustomers) VALUES
 ('2025-01-02', 7000000.00, 1, 1),
 ('2025-01-03', 1800000.00, 1, 0);
 
+
+
+-- Dữ Liệu Thêm
+INSERT INTO Products (ProductName, CategoryID, Price, Stock, Description, ImageURL, CreatedAt) VALUES
+('Giường Gỗ Sồi Tự Nhiên', 1, 7500000, 10, 'Giường ngủ làm từ gỗ sồi tự nhiên, chắc chắn và bền đẹp.', 'https://example.com/images/giuong-go-soi.jpg', CURRENT_TIMESTAMP),
+('Giường Ngủ Bọc Nỉ Hiện Đại', 1, 9500000, 8, 'Giường ngủ bọc nỉ cao cấp, phong cách hiện đại, phù hợp với mọi không gian.', 'https://example.com/images/giuong-boc-ni.jpg', CURRENT_TIMESTAMP),
+('Sofa Góc L Shape', 2, 12500000, 5, 'Sofa góc L bọc nỉ nhập khẩu, thiết kế sang trọng và thoải mái.', 'https://example.com/images/sofa-goc-l.jpg', CURRENT_TIMESTAMP),
+('Sofa Da Cao Cấp 3 Chỗ', 2, 18500000, 3, 'Sofa da thật, kiểu dáng hiện đại, phù hợp với không gian phòng khách cao cấp.', 'https://example.com/images/sofa-da-3cho.jpg', CURRENT_TIMESTAMP),
+('Bàn Gaming RGB Kèm Kệ', 3, 4500000, 12, 'Bàn gaming chuyên dụng với hệ thống đèn LED RGB, thiết kế chắc chắn.', 'https://example.com/images/ban-gaming-rgb.jpg', CURRENT_TIMESTAMP),
+('Bàn Máy Tính Gỗ Công Nghiệp', 3, 3200000, 15, 'Bàn máy tính làm từ gỗ công nghiệp MDF chống ẩm, có ngăn kéo tiện lợi.', 'https://example.com/images/ban-may-tinh-go.jpg', CURRENT_TIMESTAMP),
+('Kệ Treo Tường Gỗ Xương Cá', 4, 1200000, 20, 'Kệ treo tường phong cách xương cá, giúp không gian trở nên gọn gàng.', 'https://example.com/images/ke-treo-xuong-ca.jpg', CURRENT_TIMESTAMP),
+('Kệ Trang Trí Treo Tường 3 Tầng', 4, 1800000, 18, 'Kệ treo tường 3 tầng hiện đại, thích hợp để trang trí sách và đồ lưu niệm.', 'https://example.com/images/ke-treo-3-tang.jpg', CURRENT_TIMESTAMP),
+('Giá Đỡ Màn Hình Gỗ', 5, 900000, 25, 'Giá đỡ màn hình bằng gỗ giúp nâng cao màn hình, giảm đau cổ khi làm việc.', 'https://example.com/images/gia-do-man-hinh.jpg', CURRENT_TIMESTAMP),
+('Đèn LED Kẹp Bàn Điều Chỉnh Ánh Sáng', 5, 650000, 30, 'Đèn LED kẹp bàn với 3 chế độ ánh sáng, phù hợp cho làm việc và học tập.', 'https://example.com/images/den-led-kep-ban.jpg', CURRENT_TIMESTAMP);
+
+DELETE FROM categories
+WHERE categories.categoryid in (6,7,8,9,10)
+

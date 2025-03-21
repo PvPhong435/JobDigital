@@ -1,46 +1,45 @@
-// Lấy tất cả sản phẩm
-document.addEventListener("DOMContentLoaded", function () {
-    fetch("http://localhost:8080/api/products") // Gọi API lấy danh sách sản phẩm
+// Lấy danh sách sản phẩm từ API và hiển thị lên trang
+function fetchProducts() {
+    fetch("http://localhost:8080/api/products")
         .then(response => response.json())
         .then(products => {
             const productContainer = document.getElementById("product-list");
-            productContainer.innerHTML = ""; // Xóa nội dung cũ nếu có
+            productContainer.innerHTML = ""; // Xóa nội dung cũ
 
             products.slice(0, 8).forEach(product => {
                 const oldPrice = product.price + 1000000; // Giá cũ = Giá mới + 1 triệu
 
-                const productHTML = `
-                    <div class="bg-white p-4 rounded-lg shadow-md flex flex-col">
-                        <img src="${product.imageURL}" alt="${product.productName}" 
-                            class="w-full h-48 object-cover mb-4 rounded-lg" width="300" height="300"/>
-                        <p class="text-sm text-gray-600 mb-2 font-semibold">
-                            ${product.productName}
-                        </p>
-                        <p class="text-sm text-gray-400 line-through">
-                            ${oldPrice.toLocaleString()}₫
-                        </p>
-                        <p class="text-lg font-bold text-teal-800">
-                            ${product.price.toLocaleString()}₫
-                        </p>
-                        <p class="text-sm text-gray-500 mb-2">
-                            ${product.description}
-                        </p>
-                        <p class="text-sm text-gray-700">
-                            Số lượng tồn kho: ${product.stock}
-                        </p>
-                        <button class="bg-[#96644b] text-white py-2 px-4 rounded mt-4 w-full">
-                            MUA NGAY
-                        </button>
-                        <p class="text-center text-sm text-yellow-500 mt-2">
-                            Thêm vào giỏ hàng
-                        </p>
-                    </div>
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "cursor-pointer");
+                productDiv.dataset.productId = product.id; // Gán productId vào dataset
+
+                productDiv.innerHTML = `
+                    <img src="/img/${product.imageURL}" alt="${product.imageURL}" 
+                        class="w-full h-48 object-cover mb-4 rounded-lg" width="300" height="300"/>
+                    <p class="text-sm text-gray-600 mb-2 font-semibold">${product.productName}</p>
+                    <p class="text-sm text-gray-400 line-through">${oldPrice.toLocaleString()}₫</p>
+                    <p class="text-lg font-bold text-teal-800">${product.price.toLocaleString()}₫</p>
+                    <p class="text-sm text-gray-500 mb-2">${product.description}</p>
+                    <p class="text-sm text-gray-700">Số lượng tồn kho: ${product.stock}</p>
+                    <button class="bg-[#96644b] text-white py-2 px-4 rounded mt-4 w-full">MUA NGAY</button>
+                    <p class="text-center text-sm text-yellow-500 mt-2">Thêm vào giỏ hàng</p>
                 `;
-                productContainer.innerHTML += productHTML;
+
+                // Sự kiện click để chuyển đến trang chi tiết sản phẩm
+                productDiv.addEventListener("click", function () {
+                    localStorage.setItem("selectedProduct", JSON.stringify(product)); // Lưu sản phẩm vào localStorage
+                    window.location.href = `detail2.html?productId=${product.id}`; // Chuyển trang
+                });
+
+                productContainer.appendChild(productDiv);
             });
         })
         .catch(error => console.error("Lỗi khi tải sản phẩm:", error));
-});
+}
+
+// Tải sản phẩm khi trang được tải
+document.addEventListener("DOMContentLoaded", fetchProducts);
+
 
 
 

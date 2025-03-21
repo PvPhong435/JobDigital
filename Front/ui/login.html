@@ -8,6 +8,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
+    <script defer src="/js/auth.js"></script>
   </head>
   <body>
     <!-- section header -->
@@ -84,68 +85,52 @@
       <div
         class="flex flex-col md:flex-row items-center bg-white p-6 rounded-lg shadow-lg"
       >
-        <div class="w-full md:w-1/2 md:mr-8">
-          <h2 class="text-2xl font-bold mb-4 text-center">Đăng nhập</h2>
-          <form class="space-y-4">
-            <div>
-              <label
-                class="block text-sm font-medium text-gray-700"
-                for="username"
-                >Tên tài khoản</label
-              >
-              <input
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                id="username"
-                placeholder="Vui lòng nhập tên tài khoản"
-                type="text"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700" for="email"
-                >Email &amp; số điện thoại</label
-              >
-              <input
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                id="email"
-                type="text"
-                value="0123456789"
-              />
-            </div>
-            <div class="text-right">
-              <a class="text-sm text-blue-600 hover:underline" href="#"
-                >Quên mật khẩu</a
-              >
-            </div>
-            <div>
-              <button
-                class="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                type="submit"
-              >
-                Đăng nhập
-              </button>
-            </div>
-          </form>
-          <div class="mt-4 text-center">
-            <p class="text-sm">
-              Bạn chưa có tài khoản
-              <a class="text-blue-600 hover:underline" href="#">Đăng ký</a>
-            </p>
+      <div class="w-full md:w-1/2 md:mr-8">
+        <h2 class="text-2xl font-bold mb-4 text-center">Đăng nhập</h2>
+        <form class="space-y-4" id="login-form">
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="email">Email</label>
+            <input
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              id="email"
+              type="text"
+              name="email"
+              placeholder="Nhập email"
+            />
           </div>
-          <div class="mt-4 flex justify-center space-x-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="password">Mật khẩu</label>
+            <input
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Nhập mật khẩu"
+            />
+          </div>
+          <div class="text-right">
+            <a class="text-sm text-blue-600 hover:underline" href="#">Quên mật khẩu</a>
+          </div>
+          <div>
             <button
-              class="flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+              class="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              type="submit"
             >
-              <i class="fab fa-facebook-f text-blue-600 mr-2"></i> Đăng nhập với
-              Facebook
-            </button>
-            <button
-              class="flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-            >
-              <i class="fab fa-google text-red-600 mr-2"></i> Đăng nhập với
-              Google
+              Đăng nhập
             </button>
           </div>
+        </form>
+        <div class="mt-4 text-center">
+          <p class="text-sm">
+            Bạn chưa có tài khoản
+            <a class="text-blue-600 hover:underline" href="#">Đăng ký</a>
+          </p>
         </div>
+      </div>
+      
+      <!-- Nhúng file JavaScript -->
+      <script src="login.js"></script>
+      
         <div class="hidden md:block md:w-1/2">
           <img
             alt="A person getting a tattoo on their arm"

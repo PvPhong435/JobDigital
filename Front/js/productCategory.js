@@ -48,7 +48,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
-const categoryId = urlParams.get("categoryId") || 1; // Mặc định là 1 nếu không có categoryId
+    const categoryId = urlParams.get("categoryId") || 1; // Mặc định là 1 nếu không có categoryId
     fetch(`http://localhost:8080/api/products/category/${categoryId}`) // Gọi API lấy sản phẩm theo danh mục
         .then(response => response.json())
         .then(products => {
@@ -65,7 +65,7 @@ const categoryId = urlParams.get("categoryId") || 1; // Mặc định là 1 nế
 
                 const productHTML = `
                     <div class="bg-white p-4 rounded-lg shadow-md flex flex-col">
-                        <img src="${product.imageURL || 'https://via.placeholder.com/300'}" 
+                        <img src="/img/${product.imageURL || 'https://via.placeholder.com/300'}" 
                             alt="${product.productName}" class="w-full h-48 object-cover mb-4 rounded-lg" width="300" height="300"/>
                         <p class="text-sm text-gray-600 mb-2 font-semibold">${product.productName}</p>
                         <p class="text-sm text-gray-400 line-through">${oldPrice.toLocaleString()}₫</p>

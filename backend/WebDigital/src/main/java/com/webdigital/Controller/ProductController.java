@@ -90,5 +90,20 @@ public class ProductController {
         return productService.getRandomProducts();
     }
     
+    //Lấy sản phẩm có cùng loại với ản phẩm được truyền vào
+    @GetMapping("/productCategory/{productId}")
+    public List<Product> getProductWithSameCategory(@PathVariable Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + productId));
+
+        if (product.getCategory() == null) {
+            throw new RuntimeException("Product does not have a category.");
+        }
+
+        Long categoryId = product.getCategory().getCategoryID();
+        return productRepository.findByCategory_CategoryID(categoryId);
+    }
+
+    
     
 }
