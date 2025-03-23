@@ -103,6 +103,12 @@ public class ProductController {
         Long categoryId = product.getCategory().getCategoryID();
         return productRepository.findByCategory_CategoryID(categoryId);
     }
+    
+    @GetMapping("/findByName/{productName}")
+    public List<Product> FindProductByName(@PathVariable String productName)
+    {
+    	return productRepository.findByProductNameContainingIgnoreCase(productName);
+    }
 
     
     

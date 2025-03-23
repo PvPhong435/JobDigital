@@ -6,6 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <script defer src="/js/product.js"></script>
+    <script defer src="/js/productFind.js"></script>
 </head>
 <style>
     .zoom:hover {
@@ -22,28 +23,28 @@
             </div>
             <div class="flex items-center space-x-4">
                 <div class="relative">
-                    <input class="border rounded-full py-2 px-4 pl-10 w-64" placeholder="Tìm kiếm sản phẩm" type="text"/>
+                    <input id="searchInput" class="border rounded-full py-2 px-4 pl-10 w-64" placeholder="Tìm kiếm sản phẩm" type="text"/>
                     <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                 </div>
                 <div class="flex items-center space-x-4">
                     <i class="fas fa-shopping-cart text-gray-600"></i>
                    <a href="login.html"> <i class="fas fa-user text-gray-600"></i></a>
+                   <div id="user-info" style="display: none;">
+                    <a id="user-id" href="#"></a>
+                    <a id="user-name" href="#"></a>
+                </div>
                 </div>
             </div>
         </div>
         <nav class="bg-white shadow mt-4 sticky top-0 z-50">
             <div class="container mx-auto flex justify-between items-center py-2 px-6">
                 <div class="flex justify-between w-full">
-                    <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="#">
-                        Cửa hàng
+                    <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="About.html">
+                         Giới Thiệu
                     
                     </a>
-                    <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="#">
-                         Tin tức
-                    
-                    </a>
-                    <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="#">
-                        Giới thiệu
+                    <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="shop2Product.html">
+                        Các Sản Phẩm
                     
                     </a>
                     <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="#">

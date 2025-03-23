@@ -19,6 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query(value = "SELECT * FROM products WHERE productid IN (SELECT productid FROM products ORDER BY RANDOM() LIMIT 5)", nativeQuery = true)
 	List<Product> findRandomProductsOptimized();
 
-    
+	List<Product> findByProductNameContainingIgnoreCase(String productName);
+
 
 }

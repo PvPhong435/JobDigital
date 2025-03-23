@@ -1,0 +1,33 @@
+/* Kiểu dáng chung cho nút phân trang */
+.pagination-btn {
+    padding: 8px 14px;
+    margin: 3px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hiệu ứng khi di chuột vào */
+.pagination-btn:hover {
+    background-color: #96644b;
+    color: white;
+}
+
+/* Trang hiện tại */
+.pagination-btn.active {
+    background-color: #6d4c41;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #6d4c41;
+}
+
+/* Nút chuyển trang bị vô hiệu hóa */
+.pagination-btn:disabled {
+    background-color: #ddd;
+    color: #888;
+    cursor: not-allowed;
+}
