@@ -1,0 +1,107 @@
+#cart-container {
+    position: relative;
+    display: inline-block;
+}
+
+.hidden {
+    display: none;
+}
+
+#cart-list {
+    position: absolute;
+    top: 100%; /* Hiển thị giỏ hàng ngay bên dưới */
+    right: -143px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    list-style: none;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    border-radius: 5px;
+}
+
+#cart-list.hidden {
+    display: none;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.cart-info {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.cart-info h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.cart-info p {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #777;
+}
+
+.cart-actions {
+    display: flex;
+    align-items: center;
+}
+
+.cart-actions button {
+    background: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 0 2px;
+}
+
+.cart-actions button:hover {
+    background: #ddd;
+}
+
+/* Nút Đặt hàng */
+.checkout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+#cart-button
+{
+    width: 50px;
+    height: 42px;
+    border: #333 solid 1px;
+    border-radius: 10px;
+}

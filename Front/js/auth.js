@@ -122,6 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 alert("Đăng nhập thành công!");
+                
                 // Lưu token nếu API trả về
                 if (result.token) {
                     localStorage.setItem("token", result.token);
@@ -129,6 +130,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Lưu thông tin user vào localStorage
                 if (result.user) {
                     localStorage.setItem("user", JSON.stringify(result.user)); 
+                    localStorage.setItem("userId",result.user.userid);
+                    localStorage.setItem("userName",result.user.username);
+                }
+                else
+                {
+                    localStorage.setItem("userId","8");
+                    localStorage.setItem("userName","Guest");
                 }
                 // Chuyển hướng đến trang home2.html
                 window.location.href = "/ui/home2.html";
@@ -150,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const userData = JSON.parse(user); // Chuyển chuỗi JSON thành object
 
         // Hiển thị thông tin user
-        document.getElementById("user-id").innerText = `User ID: ${userData.id}`;
+        document.getElementById("user-id").innerText = `User ID: ${userData.userid}`;
         document.getElementById("user-name").innerText = `Username: ${userData.username}`;
 
         // Ẩn nút "Đăng nhập", hiển thị thông tin user

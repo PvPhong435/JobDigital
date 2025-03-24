@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import com.webdigital.DAO.CartRepository;
 import com.webdigital.DAO.ProductRepository;
 import com.webdigital.DTO.CartRequest;
+import com.webdigital.DTO.CartShow;
 import com.webdigital.DTO.CartUpdateRequest;
 import com.webdigital.Model.*;
 import com.webdigital.Service.CartService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,9 +60,17 @@ public class CartController {
 
 	    // Hiển thị giỏ hàng của người dùng
 	    @GetMapping("/user/{userID}")
-	    public ResponseEntity<List<Cart>> getUserCart(@PathVariable Long userID) {
-	        List<Cart> cartItems = cartService.getUserCart(userID);
-	        return ResponseEntity.ok(cartItems);
+	    public ResponseEntity<List<CartShow>> getUserCart(@PathVariable Long userID) {
+	    	List<CartShow> cartItems = ConvertToCartShow(cartService.getUserCart(userID));
+	    	if(cartItems.size()==0)
+	    	{
+	    		return ResponseEntity.ok(cartItems=new ArrayList<CartShow>());
+	    	}
+	    	else
+	    	{
+	    		return ResponseEntity.ok(cartItems);
+	    	}
+	        
 	    }
 
 	    // Tính tổng tiền trong giỏ hàng
@@ -76,5 +86,25 @@ public class CartController {
 	    {
 	    	Optional<Cart> cartInfor=cartService.getCartInfor(cartID);
 	    	return ResponseEntity.ok(cartInfor);
+	    }
+	    
+	    
+	    private List<CartShow> ConvertToCartShow(List<Cart> list)
+	    {
+	    	List<CartShow> listNew=new ArrayList<CartShow>();
+	    	for(Cart c :list)
+	    	{
+	    		CartShow cartNew= new CartShow();
+	    		cartNew.setCartId(c.getCartID());
+	    		cartNew.setProductName(c.getProduct().getProductName());
+	    		cartNew.setPrice(c.getProduct().getPrice());
+	    		cartNew.setQuantity(c.getQuantity());
+	    		cartNew.setUserId(c.getUser().getUserID());
+	    		cartNew.setUserName(c.getUser().getUsername());
+	    		cartNew.setProductImage(c.getProduct().getImageURL());
+	    		listNew.add(cartNew);	
+	    	}
+	    	
+	    	return listNew;
 	    }
 }

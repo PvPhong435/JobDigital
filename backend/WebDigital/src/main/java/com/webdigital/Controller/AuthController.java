@@ -73,15 +73,22 @@ public class AuthController {
 //        }
         
         if (user.isPresent()) { // So sánh mật khẩu mã hóa
-            session.setAttribute("loggedInUser", user.get());
+        	if(user.get().getPassword().equals(loginRequest.getPassword()))
+        	{
+        		session.setAttribute("loggedInUser", user.get());
 
-            // Tạo phản hồi JSON
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Đăng nhập thành công");
-            response.put("userId", user.get().getUserID());
-            response.put("email", user.get().getEmail());
+                // Tạo phản hồi JSON
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Đăng nhập thành công");
+                response.put("user", user.get());
 
-            return ResponseEntity.ok(response);
+                return ResponseEntity.ok(response);
+        	}
+        	else
+        	{
+        		return ResponseEntity.status(401).body(Collections.singletonMap("message", "mật khẩu không đúng"));
+        	}
+            
         } else {
             return ResponseEntity.status(401).body(Collections.singletonMap("message", "Email hoặc mật khẩu không đúng"));
         }

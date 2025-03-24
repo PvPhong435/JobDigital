@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Bảng điều khiển</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="/js/product.js"></script>
     <script>
         function togglePopup() {
           document.getElementById("popup-form").classList.toggle("hidden");
@@ -24,7 +25,7 @@
             alt="Logo"
             class="w-40"
             height="80"
-            src="../img/logo-noi-that.jpg"
+            src="/img/logo-noi-that.jpg"
             width="160"
           />
         </div>
@@ -51,8 +52,9 @@
           </li>
 
           <li class="flex items-center text-white text-lg">
-            <i class="fas fa-sign-out-alt mr-4"></i>
+            <button id="logout-Button"><i class="fas fa-sign-out-alt mr-4"></i>
             Đăng xuất
+          </button>
           </li>
         </ul>
       </div>
