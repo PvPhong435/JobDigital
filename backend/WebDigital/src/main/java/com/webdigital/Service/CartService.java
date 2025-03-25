@@ -50,7 +50,7 @@ public class CartService {
 	            Cart cart = new Cart();
 	            cart.setUser(user);
 	            cart.setProduct(product);
-	            cart.setQuantity(quantity);
+	            cart.setQuantity(quantity); 
 	            return cartRepository.save(cart);
 	        }
 	    }

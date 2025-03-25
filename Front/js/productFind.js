@@ -1,49 +1,4 @@
 
-// //Tìm sản phẩm
-// document.addEventListener("DOMContentLoaded", function () {
-//     fetchProducts(); // Gọi API lấy toàn bộ sản phẩm khi trang load
-
-//     // Tìm ô input theo đúng selector
-//     const searchInput = document.getElementById("searchInput");
-//     console.log(document.getElementById("searchInput"));
-
-    
-//     if (!searchInput) {
-//         console.error("Không tìm thấy ô input tìm kiếm!");
-//         return;
-//     }
-
-//     function searchProduct() {
-//         const searchTerm = searchInput.value.trim();
-//         console.log("Tìm kiếm:", searchTerm);
-
-//         if (searchTerm === "") {
-//             fetchProducts();
-//             return;
-//         }
-
-//         fetch(`http://localhost:8080/api/products/findByName/${encodeURIComponent(searchTerm)}`)
-//             .then(response => response.json())
-//             .then(products => {
-//                 console.log("Sản phẩm tìm được:", products);
-//                 allProducts = products;
-//                 currentPage = 1;
-//                 displayProducts();
-//             })
-//             .catch(error => console.error("Lỗi khi tìm kiếm sản phẩm:", error));
-//     }
-
-//     searchInput.addEventListener("keydown", function (event) {
-//         console.log("Phím được nhấn:", event.key);
-//         if (event.key === "Enter") {
-//             event.preventDefault(); // Ngăn chặn form submit
-//             console.log("Enter pressed");
-//             searchProduct();
-//         }
-//     });
-// });
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("searchInput");
 

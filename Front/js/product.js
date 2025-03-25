@@ -13,7 +13,7 @@ function fetchProducts() {
                 const productDiv = document.createElement("div");
                 productDiv.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "cursor-pointer");
                 productDiv.dataset.productId = product.id; // Gán productId vào dataset
-
+                const userId = document.getElementById("user-id").textContent;
                 productDiv.innerHTML = `
                     <img src="/img/${product.imageURL}" alt="${product.imageURL}" 
                         class="w-full h-48 object-cover mb-4 rounded-lg" width="300" height="300"/>
@@ -22,16 +22,90 @@ function fetchProducts() {
                     <p class="text-lg font-bold text-teal-800">${product.price.toLocaleString()}₫</p>
                     <p class="text-sm text-gray-500 mb-2">${product.description}</p>
                     <p class="text-sm text-gray-700">Số lượng tồn kho: ${product.stock}</p>
-                    <button class="bg-[#96644b] text-white py-2 px-4 rounded mt-4 w-full">MUA NGAY</button>
-                    <p class="text-center text-sm text-yellow-500 mt-2">Thêm vào giỏ hàng</p>
+                    <button id="add-to-cart-btn-${product.productID}" 
+                            class="bg-[#96644b] text-white py-2 px-4 rounded mt-4 w-full">
+                        Thêm Vào Giỏ Hàng
+                    </button>
+
                 `;
+
+                // Thêm sự kiện cho nút "Thêm vào giỏ hàng"
+                // Đảm bảo sự kiện được gán sau khi tạo phần tử HTML
+                setTimeout(() => {
+                    const addToCartBtn = document.getElementById(`add-to-cart-btn-${product.productID}`);
+                    if (addToCartBtn && !addToCartBtn.dataset.listener) {
+                        addToCartBtn.dataset.listener = "true"; // Đánh dấu đã gán sự kiện
+                        addToCartBtn.addEventListener("click", function (event) {
+                            event.stopPropagation(); // Ngăn sự kiện click lan lên productDiv
+                            addCart(userId, product.productID, 1);
+                        });
+                    }
+                }, 0);
+
+
 
                 // Sự kiện click để chuyển đến trang chi tiết sản phẩm
                 productDiv.addEventListener("click", function () {
                     localStorage.setItem("selectedProduct", JSON.stringify(product)); // Lưu sản phẩm vào localStorage
-                    window.location.href = `detail2.html?productId=${product.id}`; // Chuyển trang
+                    window.location.href = `detail2.html`; // Chuyển trang
                 });
+                productContainer.appendChild(productDiv);
+            });
+        })
+        .catch(error => console.error("Lỗi khi tải sản phẩm:", error));
+}
 
+// Lấy 5 sản phẩm từ API và hiển thị lên trang
+function fetchProducts2() {
+    LoadUser();
+    fetch("http://localhost:8080/api/products/random")
+        .then(response => response.json())
+        .then(products => {
+            const productContainer = document.getElementById("product-list2");
+            productContainer.innerHTML = ""; // Xóa nội dung cũ
+
+            products.slice(0, 4).forEach(product => {
+                const oldPrice = product.price + 1000000; // Giá cũ = Giá mới + 1 triệu
+
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "cursor-pointer");
+                productDiv.dataset.productId = product.id; // Gán productId vào dataset
+                const userId = document.getElementById("user-id").textContent;
+                productDiv.innerHTML = `
+                    <img src="/img/${product.imageURL}" alt="${product.imageURL}" 
+                        class="w-full h-48 object-cover mb-4 rounded-lg" width="300" height="300"/>
+                    <p class="text-sm text-gray-600 mb-2 font-semibold">${product.productName}</p>
+                    <p class="text-sm text-gray-400 line-through">${oldPrice.toLocaleString()}₫</p>
+                    <p class="text-lg font-bold text-teal-800">${product.price.toLocaleString()}₫</p>
+                    <p class="text-sm text-gray-500 mb-2">${product.description}</p>
+                    <p class="text-sm text-gray-700">Số lượng tồn kho: ${product.stock}</p>
+                    <button id="add-to-cart-btn-${product.productID}" 
+                            class="bg-[#96644b] text-white py-2 px-4 rounded mt-4 w-full">
+                        Thêm Vào Giỏ Hàng
+                    </button>
+
+                `;
+
+                // Thêm sự kiện cho nút "Thêm vào giỏ hàng"
+                // Đảm bảo sự kiện được gán sau khi tạo phần tử HTML
+                setTimeout(() => {
+                    const addToCartBtn = document.getElementById(`add-to-cart-btn-${product.productID}`);
+                    if (addToCartBtn && !addToCartBtn.dataset.listener) {
+                        addToCartBtn.dataset.listener = "true"; // Đánh dấu đã gán sự kiện
+                        addToCartBtn.addEventListener("click", function (event) {
+                            event.stopPropagation(); // Ngăn sự kiện click lan lên productDiv
+                            addCart(userId, product.productID, 1);
+                        });
+                    }
+                }, 0);
+
+
+
+                // Sự kiện click để chuyển đến trang chi tiết sản phẩm
+                productDiv.addEventListener("click", function () {
+                    localStorage.setItem("selectedProduct", JSON.stringify(product)); // Lưu sản phẩm vào localStorage
+                    window.location.href = `detail2.html`; // Chuyển trang
+                });
                 productContainer.appendChild(productDiv);
             });
         })
@@ -39,8 +113,9 @@ function fetchProducts() {
 }
 
 // Tải sản phẩm khi trang được tải
-document.addEventListener("DOMContentLoaded",function(){
+document.addEventListener("DOMContentLoaded", function () {
     fetchProducts();
+    fetchProducts2();
     LoadUser()
     document.getElementById("logout-Button").addEventListener("click", logoutUser);
     // Thêm sự kiện click vào giỏ hàng
@@ -95,7 +170,7 @@ function LoadUser() {
         // Hiển thị thông tin user
         document.getElementById("user-id").innerText = ` ${userData.userID}`;
         document.getElementById("user-name").innerText = `| ${userData.fullName}`;
-        
+
 
 
         // Ẩn nút "Đăng nhập", hiển thị thông tin user
@@ -110,7 +185,7 @@ function LoadUser() {
 
 function logoutUser() {
     console.log("Người dùng đã đăng xuất!");
-    
+
     // Xóa thông tin đăng nhập trong localStorage
     localStorage.clear();
     localStorage.removeItem("token");
@@ -123,8 +198,6 @@ function logoutUser() {
 async function loadCartItems() {
     const cartList = document.getElementById("cart-list");
     const userId = document.getElementById("user-id").textContent;
-    console.log(userId);
-
     try {
         const response = await fetch(`http://localhost:8080/api/cart/user/${userId}`);
         if (!response.ok) throw new Error("Lỗi khi lấy giỏ hàng");
@@ -145,19 +218,21 @@ async function loadCartItems() {
                         <p>Giá: ${item.price.toLocaleString()} VND</p>
                     </div>
                     <div class="cart-actions">
-                        <button onclick="down(${item.productId}, ${item.quantity})">-</button>
+                        <button onclick="down(${item.cartId}, ${item.quantity})">-</button>
                         <span>${item.quantity}</span>
-                        <button onclick="up(${item.productId}, ${item.quantity})">+</button>
-                        <button onclick="deleteCartItem(${item.productId})">🗑</button>
+                        <button onclick="up(${item.cartId}, ${item.quantity})">+</button>
+                        <button onclick="deleteCartItem(${item.cartId})">🗑</button>
                     </div>
                 `;
-                cartList.prepend(li); // Đẩy sản phẩm mới lên trên cùng
+                cartList.appendChild(li); // Đẩy sản phẩm mới lên trên cùng
             });
             // Thêm nút "Đặt hàng" ở cuối danh sách
             const checkoutButton = document.createElement("button");
             checkoutButton.classList.add("checkout-button");
             checkoutButton.textContent = "Đặt hàng";
-            checkoutButton.onclick = placeOrder;
+            checkoutButton.onclick = () => {
+                window.location.href = "PayPage.html"; // Điều hướng đến trang PayPage
+            };
             cartList.appendChild(checkoutButton);
         }
     } catch (error) {
@@ -165,15 +240,10 @@ async function loadCartItems() {
     }
 }
 
-// Hàm xử lý đặt hàng
-function placeOrder() {
-    alert("Đặt hàng thành công!"); // Thay thế bằng logic đặt hàng của bạn
-}
-
 // Hàm xóa sản phẩm khỏi giỏ hàng
-async function deleteCartItem(productId) {
+async function deleteCartItem(cartID) {
     try {
-        const response = await fetch(`http://localhost:8080/api/cart/remove/${productId}`, {
+        const response = await fetch(`http://localhost:8080/api/cart/remove/${cartID}`, {
             method: "DELETE",
         });
         if (!response.ok) throw new Error("Lỗi khi xóa sản phẩm");
@@ -184,12 +254,12 @@ async function deleteCartItem(productId) {
 }
 
 // Hàm tăng số lượng sản phẩm
-async function up(productId, quantity) {
+async function up(cartID, quantity) {
     try {
-        const response = await fetch(`http://localhost:8080/api/cart/update`, {
+        const response = await fetch(`http://localhost:8080/api/cart/update/${cartID}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId, quantity: quantity + 1 }),
+            body: JSON.stringify({ quantity: quantity + 1 }),
         });
 
         if (!response.ok) throw new Error("Lỗi khi tăng số lượng");
@@ -200,17 +270,17 @@ async function up(productId, quantity) {
 }
 
 // Hàm giảm số lượng sản phẩm
-async function down(productId, quantity) {
+async function down(cartID, quantity) {
     if (quantity <= 1) {
-        deleteCartItem(productId);
+        deleteCartItem(cartID);
         return;
     }
 
     try {
-        const response = await fetch(`http://localhost:8080/api/cart/update`, {
+        const response = await fetch(`http://localhost:8080/api/cart/update/${cartID}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId, quantity: quantity - 1 }),
+            body: JSON.stringify({ quantity: quantity - 1 }),
         });
 
         if (!response.ok) throw new Error("Lỗi khi giảm số lượng");
@@ -219,3 +289,42 @@ async function down(productId, quantity) {
         console.error(error);
     }
 }
+
+//Thêm sản phẩm vào giỏ hàng
+async function addCart(userID, productID, quantity) {
+    // Tạo đối tượng CartRequest từ các tham số đầu vào
+    const cartRequest = {
+        cartID: null,
+        userID: userID,
+        productID: productID,
+        quantity: quantity
+    };
+    console.log(cartRequest);
+
+    try {
+        // Gửi HTTP POST request tới server
+        const response = await fetch('http://localhost:8080/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Đảm bảo gửi dữ liệu dưới dạng JSON
+            },
+            body: JSON.stringify(cartRequest) // Chuyển đối tượng thành chuỗi JSON
+        });
+
+        // Kiểm tra nếu request thành công
+        if (response.ok) {
+            const data = await response.json(); // Chuyển phản hồi từ server thành đối tượng JSON
+            console.log('Giỏ hàng đã được thêm thành công:', data);
+            alert("Thêm sản phẩm vào giỏ hàng thành công");
+            loadCartItems();
+        } else {
+            // Nếu có lỗi xảy ra
+            console.error('Lỗi khi thêm giỏ hàng:', response.statusText);
+            alert("Lỗi trong quá trình thêm sản phẩm vui lòng thử lại");
+        }
+    } catch (error) {
+        // Bắt lỗi nếu có vấn đề trong quá trình gửi request
+        console.error('Có lỗi xảy ra trong quá trình gửi request:', error);
+    }
+}
+

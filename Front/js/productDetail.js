@@ -68,18 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Lỗi khi tải chi tiết sản phẩm:", error));
 });
 
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Lấy productId từ URL
-//     const urlParams = new URLSearchParams(window.location.search);
-//     const productId = urlParams.get("productId");
-
-//     if (productId) {
-//         fetchSimilarProducts(productId);
-//     }
-// });
-
-// Hàm gọi API để lấy sản phẩm tương tự
 // Hàm gọi API để lấy sản phẩm tương tự
 function fetchSimilarProducts(productId) {
     fetch(`http://localhost:8080/api/products/productCategory/${productId}`)

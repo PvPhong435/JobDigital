@@ -14,7 +14,9 @@ import com.webdigital.Service.CartService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -25,15 +27,19 @@ public class CartController {
 	    private CartService cartService;
 
 	    // Thêm sản phẩm vào giỏ hàng
-	    @PostMapping("/add")
-	    public ResponseEntity<String> addToCart(@RequestBody CartRequest request) {
-	        try {
-	            cartService.addToCart(request.getUserID(), request.getProductID(), request.getQuantity());
-	            return ResponseEntity.ok("Product added to cart successfully.");
-	        } catch (IllegalArgumentException e) {
-	            return ResponseEntity.badRequest().body(e.getMessage());
-	        }
-	    }
+	 @PostMapping("/add")
+	 public ResponseEntity<Map<String, String>> addToCart(@RequestBody CartRequest request) {
+	     Map<String, String> response = new HashMap<>();
+	     try {
+	         cartService.addToCart(request.getUserID(), request.getProductID(), request.getQuantity());
+	         response.put("message", "Product added to cart successfully.");
+	         return ResponseEntity.ok(response); // ✅ Trả về JSON hợp lệ
+	     } catch (IllegalArgumentException e) {
+	         response.put("error", e.getMessage());
+	         return ResponseEntity.badRequest().body(response); // ✅ Trả về JSON hợp lệ
+	     }
+	 }
+
 
 	    // Xóa sản phẩm khỏi giỏ hàng
 	    @DeleteMapping("/remove/{cartID}")

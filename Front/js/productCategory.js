@@ -1,3 +1,5 @@
+import { addCart } from "./cart.js";
+
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const categoryId = urlParams.get("categoryId") || 1;
@@ -32,18 +34,33 @@ document.addEventListener("DOMContentLoaded", function () {
             const oldPrice = product.price + 1000000;
             const productDiv = document.createElement("div");
             productDiv.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "flex", "flex-col", "cursor-pointer");
-            
+            const userId = document.getElementById("user-id").textContent;
             productDiv.innerHTML = `
-                <img src="/img/${product.imageURL || 'https://via.placeholder.com/300'}" 
-                    alt="${product.productName}" class="w-full h-48 object-cover mb-4 rounded-lg" width="300" height="300"/>
-                <p class="text-sm text-gray-600 mb-2 font-semibold">${product.productName}</p>
-                <p class="text-sm text-gray-400 line-through">${oldPrice.toLocaleString()}₫</p>
-                <p class="text-lg font-bold text-teal-800">${product.price.toLocaleString()}₫</p>
-                <p class="text-sm text-gray-500 mb-2">${product.description}</p>
-                <p class="text-sm text-gray-700">Số lượng tồn kho: ${product.stock}</p>
-                <button class="bg-[#96644b] text-white py-2 px-4 rounded mt-4 w-full">MUA NGAY</button>
-                <p class="text-center text-sm text-yellow-500 mt-2">Thêm vào giỏ hàng</p>
+                <img src="/img/${product.imageURL}" alt="${product.imageURL}" 
+                        class="w-full h-48 object-cover mb-4 rounded-lg" width="300" height="300"/>
+                    <p class="text-sm text-gray-600 mb-2 font-semibold">${product.productName}</p>
+                    <p class="text-sm text-gray-400 line-through">${oldPrice.toLocaleString()}₫</p>
+                    <p class="text-lg font-bold text-teal-800">${product.price.toLocaleString()}₫</p>
+                    <p class="text-sm text-gray-500 mb-2">${product.description}</p>
+                    <p class="text-sm text-gray-700">Số lượng tồn kho: ${product.stock}</p>
+                    <button id="add-to-cart-btn-${product.productID}" 
+                            class="bg-[#96644b] text-white py-2 px-4 rounded mt-4 w-full">
+                        Thêm Vào Giỏ Hàng
+                    </button>
             `;
+
+            // Thêm sự kiện cho nút "Thêm vào giỏ hàng"
+                // Đảm bảo sự kiện được gán sau khi tạo phần tử HTML
+                setTimeout(() => {
+                    const addToCartBtn = document.getElementById(`add-to-cart-btn-${product.productID}`);
+                    if (addToCartBtn && !addToCartBtn.dataset.listener) {
+                        addToCartBtn.dataset.listener = "true"; // Đánh dấu đã gán sự kiện
+                        addToCartBtn.addEventListener("click", function (event) {
+                            event.stopPropagation(); // Ngăn sự kiện click lan lên productDiv
+                            addCart(userId, product.productID, 1);
+                        });
+                    }
+                }, 0);
             
             productDiv.addEventListener("click", function () {
                 localStorage.setItem("selectedProduct", JSON.stringify(product)); // Lưu vào localStorage

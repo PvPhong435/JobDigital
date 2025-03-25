@@ -1,112 +1,198 @@
-// Lấy giỏ hàng của người dùng (GET)
-function fetchCart(userId) {
-    fetch(`http://localhost:8080/api/cart/user/${userId}`)
-        .then(response => response.json())
-        .then(data => {
-            const cartList = document.getElementById('cart-list');
-            cartList.innerHTML = '';  // Xóa dữ liệu cũ
+// Tải sản phẩm khi trang được tải
+document.addEventListener("DOMContentLoaded",function(){
+    LoadUser();
+    document.getElementById("logout-Button").addEventListener("click", logoutUser);
+    // Thêm sự kiện click vào giỏ hàng
+    const cartContainer = document.getElementById("cart-container");
+    const cartList = document.getElementById("cart-list");
 
-            data.forEach(cartItem => {
-                const row = document.createElement('tr');
+    // Hiện giỏ hàng khi rê chuột vào
+    cartContainer.addEventListener("mouseenter", function () {
+        cartList.classList.remove("hidden");
+    });
 
-                const cartIdCell = document.createElement('td');
-                cartIdCell.textContent = cartItem.cartId; // Giả sử cartId là thuộc tính của giỏ hàng
-                row.appendChild(cartIdCell);
+    // Ẩn giỏ hàng khi rời chuột
+    cartContainer.addEventListener("mouseleave", function () {
+        cartList.classList.add("hidden");
+    });
 
-                const productIdCell = document.createElement('td');
-                productIdCell.textContent = cartItem.productId;
-                row.appendChild(productIdCell);
-
-                const quantityCell = document.createElement('td');
-                quantityCell.textContent = cartItem.quantity;
-                row.appendChild(quantityCell);
-
-                // Thêm nút hành động: cập nhật và xóa
-                const actionCell = document.createElement('td');
-                
-                // Nút cập nhật
-                const updateButton = document.createElement('button');
-                updateButton.textContent = 'Cập nhật';
-                updateButton.onclick = () => updateCartItem(cartItem.cartId);
-                actionCell.appendChild(updateButton);
-
-                // Nút xóa
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Xóa';
-                deleteButton.onclick = () => deleteCartItem(cartItem.cartId);
-                actionCell.appendChild(deleteButton);
-
-                row.appendChild(actionCell);
-                cartList.appendChild(row);
-            });
-        })
-        .catch(error => console.error('Có lỗi xảy ra:', error));
-}
-
-// Thêm sản phẩm vào giỏ hàng (POST)
-document.getElementById('add-to-cart-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const userId = document.getElementById('userId').value;
-    const productId = document.getElementById('productId').value;
-    const quantity = document.getElementById('quantity').value;
-
-    const newCartItem = { userId, productId, quantity };
-
-    fetch('http://localhost:8080/api/cart/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newCartItem)
-    })
-        .then(response => response.json())
-        .then(data => {
-            fetchCart(userId); // Cập nhật lại giỏ hàng
-            document.getElementById('userId').value = '';
-            document.getElementById('productId').value = '';
-            document.getElementById('quantity').value = '';
-        })
-        .catch(error => console.error('Có lỗi khi thêm sản phẩm vào giỏ hàng:', error));
+    loadCartItems();
 });
 
-// Cập nhật số lượng sản phẩm trong giỏ hàng (PUT)
-function updateCartItem(cartId) {
-    const quantity = prompt('Nhập số lượng mới:');
 
-    const updatedCartItem = { cartId, quantity };
+function LoadUser() {
+    const user = localStorage.getItem("user");
+    if (user) {
+        const userData = JSON.parse(user); // Chuyển chuỗi JSON thành object
+        console.log(userData);
 
-    fetch(`http://localhost:8080/api/cart/update`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedCartItem)
-    })
-        .then(response => response.json())
-        .then(() => fetchCart(updatedCartItem.userId)) // Cập nhật lại giỏ hàng
-        .catch(error => console.error('Có lỗi khi cập nhật giỏ hàng:', error));
+        // Hiển thị thông tin user
+        document.getElementById("user-id").innerText = ` ${userData.userID}`;
+        document.getElementById("user-name").innerText = `| ${userData.fullName}`;
+        
+
+
+        // Ẩn nút "Đăng nhập", hiển thị thông tin user
+        document.getElementById("login-Button").style.display = "none";
+        document.getElementById("user-info").style.display = "block";
+    } else {
+        // Nếu chưa đăng nhập, hiển thị "Đăng nhập"
+        document.getElementById("login-Button").style.display = "block";
+        document.getElementById("user-info").style.display = "none";
+    }
 }
 
-// Xóa sản phẩm khỏi giỏ hàng (DELETE)
-function deleteCartItem(cartId) {
-    fetch(`http://localhost:8080/api/cart/delete/${cartId}`, {
-        method: 'DELETE'
-    })
-        .then(() => fetchCart()) // Cập nhật lại giỏ hàng
-        .catch(error => console.error('Có lỗi khi xóa sản phẩm khỏi giỏ hàng:', error));
+
+function logoutUser() {
+    console.log("Người dùng đã đăng xuất!");
+    
+    // Xóa thông tin đăng nhập trong localStorage
+    localStorage.clear();
+    localStorage.removeItem("token");
+
+    // Chuyển hướng về trang đăng nhập
+    window.location.href = "login.html";
 }
 
-// Lấy thông tin giỏ hàng theo ID (GET)
-function fetchCartById(cartId) {
-    fetch(`http://localhost:8080/api/cart/${cartId}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log('Thông tin giỏ hàng:', data);
-        })
-        .catch(error => console.error('Có lỗi xảy ra khi lấy thông tin giỏ hàng:', error));
+// Lấy danh sách sản phẩm trong giỏ hàng của user
+async function loadCartItems() {
+    const cartList = document.getElementById("cart-list");
+    const userId = document.getElementById("user-id").textContent;
+    try {
+        const response = await fetch(`http://localhost:8080/api/cart/user/${userId}`);
+        if (!response.ok) throw new Error("Lỗi khi lấy giỏ hàng");
+        const cartData = await response.json();
+
+        cartList.innerHTML = ""; // Xóa nội dung cũ
+
+        if (cartData.length === 0) {
+            cartList.innerHTML = "<li>Giỏ hàng trống</li>";
+        } else {
+            cartData.forEach(item => {
+                const li = document.createElement("li");
+                li.classList.add("cart-item");
+                li.innerHTML = `
+                    <img src="/img/${item.productImage}" alt="${item.productName}" class="cart-image">
+                    <div class="cart-info">
+                        <h3>${item.productName}</h3>
+                        <p>Giá: ${item.price.toLocaleString()} VND</p>
+                    </div>
+                    <div class="cart-actions">
+                        <button onclick="down(${item.cartId}, ${item.quantity})">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="up(${item.cartId}, ${item.quantity})">+</button>
+                        <button onclick="deleteCartItem(${item.cartId})">🗑</button>
+                    </div>
+                `;
+                cartList.appendChild(li); 
+            });
+            // Thêm nút "Đặt hàng" ở cuối danh sách
+            const checkoutButton = document.createElement("button");
+            checkoutButton.classList.add("checkout-button");
+            checkoutButton.textContent = "Đặt hàng";
+            checkoutButton.onclick = () => {
+                window.location.href = "PayPage.html"; // Điều hướng đến trang PayPage
+            };
+            cartList.appendChild(checkoutButton);
+        }
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-// Tải giỏ hàng của người dùng khi trang được tải
-const userId = 1; // Ví dụ, lấy giỏ hàng của người dùng có ID là 1
-fetchCart(userId);
+
+// Hàm xóa sản phẩm khỏi giỏ hàng
+export async function deleteCartItem(cartID) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/cart/remove/${cartID}`, {
+            method: "DELETE",
+        });
+        if (!response.ok) throw new Error("Lỗi khi xóa sản phẩm");
+        loadCartItems(); // Load lại giỏ hàng
+    } catch (error) {
+        console.error(error);
+    }
+}
+window.deleteCartItem = deleteCartItem;
+
+// Hàm tăng số lượng sản phẩm
+export async function up(cartID, quantity) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/cart/update/${cartID}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({quantity: quantity + 1 }),
+        });
+
+        if (!response.ok) throw new Error("Lỗi khi tăng số lượng");
+        loadCartItems(); // Load lại giỏ hàng
+    } catch (error) {
+        console.error(error);
+    }
+}
+window.up = up;
+
+// Hàm giảm số lượng sản phẩm
+export async function down(cartID, quantity) {
+    if (quantity <= 1) {
+        deleteCartItem(cartID);
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/cart/update/${cartID}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({quantity: quantity - 1 }),
+        });
+
+        if (!response.ok) throw new Error("Lỗi khi giảm số lượng");
+        loadCartItems(); // Load lại giỏ hàng
+    } catch (error) {
+        console.error(error);
+    }
+}
+window.down = down;
+
+//Thêm sản phẩm vào giỏ hàng
+export async function addCart(userID, productID, quantity) {
+    // Tạo đối tượng CartRequest từ các tham số đầu vào
+    const cartRequest = {
+        cartID: null,
+        userID: userID,
+        productID: productID,
+        quantity: quantity
+    };
+    console.log(cartRequest);
+
+    try {
+        // Gửi HTTP POST request tới server
+        const response = await fetch('http://localhost:8080/api/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Đảm bảo gửi dữ liệu dưới dạng JSON
+            },
+            body: JSON.stringify(cartRequest) // Chuyển đối tượng thành chuỗi JSON
+        });
+
+        // Kiểm tra nếu request thành công
+        if (response.ok) {
+            const data = await response.json(); // Chuyển phản hồi từ server thành đối tượng JSON
+            console.log('Giỏ hàng đã được thêm thành công:', data);
+            alert("Thêm sản phẩm vào giỏ hàng thành công");
+            loadCartItems();
+        } else {
+            // Nếu có lỗi xảy ra
+            console.error('Lỗi khi thêm giỏ hàng:', response.statusText);
+            alert("Lỗi trong quá trình thêm sản phẩm vui lòng thử lại");
+        }
+    } catch (error) {
+        // Bắt lỗi nếu có vấn đề trong quá trình gửi request
+        console.error('Có lỗi xảy ra trong quá trình gửi request:', error);
+    }
+}
+
+
+
+
+
