@@ -128,27 +128,27 @@ public class AuthController {
     }
     
     // Quên mật khẩu (đang sài)
-    @PostMapping("/forgot-password2")
-    public ResponseEntity<String> forgotPassword2(@RequestParam String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent()) {
-            String token = generateRandomCode(6); // Tạo mã ngẫu nhiên 6 chữ số
-            ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken(null, user.get(), token, LocalDateTime.now().plusHours(1));
-            tokenRepository.save(forgotPasswordToken);
-
-            // Gửi email với mã token
-            String subject = "Mã xác thực quên mật khẩu";
-            String message = "Bạn đã yêu cầu thay đổi mật khẩu. Mã xác thực của bạn là: " + token;
-            try {
-                emailService.sendEmail(email, subject, message); // Gọi dịch vụ gửi email
-                return ResponseEntity.ok("Mã xác thực đã được gửi đến email của bạn.");
-            } catch (MessagingException e) {
-                return ResponseEntity.status(500).body("Lỗi khi gửi email: " + e.getMessage());
-            }
-        } else {
-            return ResponseEntity.badRequest().body("Email không tồn tại trong hệ thống");
-        }
-    }
+//    @PostMapping("/forgot-password2")
+//    public ResponseEntity<String> forgotPassword2(@RequestParam String email) {
+//        Optional<User> user = userRepository.findByEmail(email);
+//        if (user.isPresent()) {
+//            String token = generateRandomCode(6); // Tạo mã ngẫu nhiên 6 chữ số
+//            ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken(null, user.get(), token, LocalDateTime.now().plusHours(1));
+//            tokenRepository.save(forgotPasswordToken);
+//
+//            // Gửi email với mã token
+//            String subject = "Mã xác thực quên mật khẩu";
+//            String message = "Bạn đã yêu cầu thay đổi mật khẩu. Mã xác thực của bạn là: " + token;
+//            try {
+//                //emailService.sendEmail(email, subject, message); // Gọi dịch vụ gửi email
+//                return ResponseEntity.ok("Mã xác thực đã được gửi đến email của bạn.");
+//            } catch (MessagingException e) {
+//                return ResponseEntity.status(500).body("Lỗi khi gửi email: " + e.getMessage());
+//            }
+//        } else {
+//            return ResponseEntity.badRequest().body("Email không tồn tại trong hệ thống");
+//        }
+//    }
     
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {

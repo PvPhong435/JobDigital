@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="/js/product.js"></script>
+    <script defer src="/js/productFind.js"></script>
+    <link href="/css/cart.css" rel="stylesheet"/>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
@@ -12,74 +15,48 @@
     <title>Document</title>
   </head>
   <body>
-    <header >
-      <div
-        class="container mx-auto flex justify-between items-center py-4 px-6"
-      >
-        <div class="flex items-center">
-          <a href="home2.html"><img
-            alt="Logo"
-            class="h-24"
-            height="250"
-            width="150"
-            src="../img/logo-noi-that.jpg"
-          /></a>
-        </div>
-        <div class="flex items-center space-x-4">
-          <div class="relative">
-            <input
-              class="border rounded-full py-2 px-4 pl-10 w-64"
-              placeholder="Tìm kiếm sản phẩm"
-              type="text"
-            />
-            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+    <header class="bg-white shadow">
+      <div class="container mx-auto flex justify-between items-center py-4 px-6">
+          <div class="flex items-center">
+              <a href="home2.html"><img alt="Logo" class="h-24" height="250" width="150" src="../img/logo-noi-that.jpg"/></a>
           </div>
           <div class="flex items-center space-x-4">
-            <i class="fas fa-shopping-cart text-gray-600"></i>
-            <i class="fas fa-heart text-gray-600"></i>
-            <i class="fas fa-user text-gray-600"></i>
+              <div class="relative">
+                  <input id="searchInput" class="border rounded-full py-2 px-4 pl-10 w-64" placeholder="Tìm kiếm sản phẩm" type="text"/>
+                  <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              </div>
+              <div id="cart-container">
+                      <button id="cart-button"><i class="fas fa-shopping-cart text-gray-600"></i></button>
+                  <ul id="cart-list"  class="hidden" ></ul>
+              </div>
+              
+              <div class="flex items-center space-x-4">
+                  
+                 <a id="login-Button" class="bg-[#96644b] hover:bg-[#8a4a3a] text-white py-2 px-4 rounded-full flex-1 text-center text-wegith-bold" href="login.html"> <i style="color: white;" class="fas fa-user text-gray-600"> Login</i></a>
+                 <div id="user-info" style="display: none;">
+                  <i class="fas fa-user text-gray-600"></i>
+                  <a id="user-id" href="#">8</a>
+                  <a id="user-name" href="#">Guest</a>
+                  <button id="logout-Button" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-full">Đăng xuất</button>
+              </div>
+              </div>
           </div>
-        </div>
       </div>
       <nav class="bg-white shadow mt-4 sticky top-0 z-50">
-        <div
-          class="container mx-auto flex justify-between items-center py-2 px-6"
-        >
-          <div class="flex justify-between w-full">
-            <a
-              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
-              href="#"
-            >
-              Cửa hàng
-            </a>
-            <a
-              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
-              href="#"
-            >
-              Tin tức
-            </a>
-            <a
-              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
-              href="#"
-            >
-             Giới thiệu
-            </a>
-            <a
-              class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center"
-              href="#"
-            >
-              Mẫu thiết kế
-            </a>
-            <a
-              class="bg-[#96644b] hover:bg-[#8a4a3a] text-white py-2 px-4 rounded-full flex-1 text-center text-wegith-bold"
-              href="#"
-            >
-              SALES
-            </a>
+          <div class="container mx-auto flex justify-between items-center py-2 px-6">
+              <div class="flex justify-between w-full">
+                  <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="About.html">
+                       Giới Thiệu
+                  
+                  </a>
+                  <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="shop2Product.html">
+                      Các Sản Phẩm
+                  
+                  </a>
+              </div>
           </div>
-        </div>
       </nav>
-    </header>
+  </header>
 
     <section class="container mx-auto p-4">
       <div class="bg-white p-4 rounded-lg shadow-md">
@@ -110,14 +87,8 @@
             <div class="mt-4">
                 <div class="flex items-center">
                     <button id="buy-now-btn" class="bg-[#96644b] text-white px-4 py-2 rounded-lg">
-                        MUA NGAY
+                        Thêm vào giỏ hàng
                     </button>
-                    <button id="add-to-cart-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg ml-2">
-                        THÊM VÀO GIỎ HÀNG
-                    </button>
-                </div>
-                <div class="mt-4">
-                    <a class="text-blue-600" href="#"> Thêm vào giỏ hàng </a>
                 </div>
                 <div class="mt-4 flex space-x-2">
                     <a class="text-gray-500" href="#">

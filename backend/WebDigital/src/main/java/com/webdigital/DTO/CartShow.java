@@ -17,4 +17,5 @@ public class CartShow {
 	private Integer quantity;
 	private BigDecimal price;
 	private String productImage;
+	private Long productId;
 }

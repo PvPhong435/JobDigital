@@ -77,7 +77,7 @@
 
 
 // Kiểm tra token để duy trì trạng thái đăng nhập
-window.onload = function() {
+window.onload = function () {
     const token = localStorage.getItem('authToken');
     if (token) {
         document.getElementById('login-form').style.display = 'none';
@@ -122,21 +122,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 alert("Đăng nhập thành công!");
-                
+
                 // Lưu token nếu API trả về
                 if (result.token) {
                     localStorage.setItem("token", result.token);
                 }
                 // Lưu thông tin user vào localStorage
                 if (result.user) {
-                    localStorage.setItem("user", JSON.stringify(result.user)); 
-                    localStorage.setItem("userId",result.user.userid);
-                    localStorage.setItem("userName",result.user.username);
+                    localStorage.setItem("user", JSON.stringify(result.user));
+                    localStorage.setItem("userId", result.user.userid);
+                    localStorage.setItem("userName", result.user.username);
                 }
-                else
-                {
-                    localStorage.setItem("userId","8");
-                    localStorage.setItem("userName","Guest");
+                else {
+                    const userGuest =
+                    {
+                        address: "unknow address",
+                        createdAt: "2025-03-24 19:00:33.6351",
+                        email: "guest@gmail.com",
+                        fullName: "Guest",
+                        password: "123",
+                        phone: "0333002648",
+                        role: "Customer",
+                        userID: "8",
+                        username: "Guest",
+
+                    }
+
+                    localStorage.setItem("user", JSON.stringify(userGuest));
+                    localStorage.setItem("userId", result.user.userid);
+                    localStorage.setItem("userName", result.user.username);
                 }
                 // Chuyển hướng đến trang home2.html
                 window.location.href = "/ui/home2.html";

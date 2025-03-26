@@ -163,10 +163,39 @@ fetchProducts();
 
 
 function LoadUser() {
-    const user = localStorage.getItem("user");
-    if (user) {
-        const userData = JSON.parse(user); // Chuyển chuỗi JSON thành object
-
+    let user = localStorage.getItem("user");
+    if (!user) {
+        const userGuest = {
+            address: "unknow address",
+            createdAt: "2025-03-24 19:00:33.6351",
+            email: "guest@gmail.com",
+            fullName: "Guest",
+            password: "123",
+            phone: "0333002648",
+            role: "Customer",
+            userID: "8",
+            username: "Guest",
+        };
+    
+        // Lưu vào localStorage dưới dạng JSON
+        localStorage.setItem("user", JSON.stringify(userGuest));
+    
+        // Gán user từ object guest
+        user = userGuest;
+        console.log("👤 Không tìm thấy user, sử dụng user guest:", user);
+    } else {
+        try {
+            // 👉 Chỉ parse nếu user đang ở dạng string JSON
+            user = JSON.parse(user);
+        } catch (error) {
+            // Nếu lỗi xảy ra, reset user về userGuest
+            localStorage.removeItem("user"); // Xóa dữ liệu lỗi
+            location.reload(); // Tải lại trang để set user mới
+        }
+    }
+    
+    if (user.userID!=8) {
+        const userData = user; // Chuyển chuỗi JSON thành object
         // Hiển thị thông tin user
         document.getElementById("user-id").innerText = ` ${userData.userID}`;
         document.getElementById("user-name").innerText = `| ${userData.fullName}`;

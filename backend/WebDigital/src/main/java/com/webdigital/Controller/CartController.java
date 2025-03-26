@@ -51,6 +51,17 @@ public class CartController {
 	            return ResponseEntity.badRequest().body(e.getMessage());
 	        }
 	    }
+	    
+	    @DeleteMapping("/remove/{userId}/{productId}")
+	    public ResponseEntity<String> removeFromCart(@PathVariable Long userId, @PathVariable Long productId) {
+	        try {
+	            cartService.removeFromCart(userId, productId);
+	            return ResponseEntity.ok("Product removed from cart successfully.");
+	        } catch (IllegalArgumentException e) {
+	            return ResponseEntity.badRequest().body(e.getMessage());
+	        }
+	    }
+
 
 	    // Cập nhật số lượng sản phẩm trong giỏ hàng
 	    @PutMapping("/update/{cartID}")
@@ -108,6 +119,7 @@ public class CartController {
 	    		cartNew.setUserId(c.getUser().getUserID());
 	    		cartNew.setUserName(c.getUser().getUsername());
 	    		cartNew.setProductImage(c.getProduct().getImageURL());
+	    		cartNew.setProductId(c.getProduct().getProductID());
 	    		listNew.add(cartNew);	
 	    	}
 	    	

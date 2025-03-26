@@ -63,6 +63,14 @@ public class CartService {
 	        }
 	        cartRepository.deleteById(cartID);
 	    }
+	    
+	    @Transactional
+	    public void removeFromCart(Long userId, Long productId) {
+	        Cart cartItem = cartRepository.findByUser_UserIDAndProduct_ProductID(userId, productId)
+	                .orElseThrow(() -> new IllegalArgumentException("Cart item not found"));
+
+	        cartRepository.delete(cartItem);
+	    }
 
 	    // Cập nhật số lượng sản phẩm trong giỏ hàng
 	    @Transactional
