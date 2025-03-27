@@ -131,6 +131,8 @@ async function addOrderDetail(orderID, productList) {
         else
         {
             alert("Thanh toán thành công");
+            window.location.href = "OrderShow.html";
+
         }
 
         const result = await response.json();

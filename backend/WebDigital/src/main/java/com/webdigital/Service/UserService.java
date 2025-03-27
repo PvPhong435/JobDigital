@@ -16,6 +16,11 @@ import jakarta.transaction.Transactional;
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
+	
+	public Optional<User> getUserByEmail(String email) {
+	    return userRepository.findByEmail(email);
+	}
+
 
 	// Lấy danh sách tất cả người dùng
 	public List<User> getAllUsers() {

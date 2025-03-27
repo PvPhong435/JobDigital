@@ -6,6 +6,7 @@ import com.webdigital.DAO.ProductRepository;
 import com.webdigital.DTO.OrderCreate;
 import com.webdigital.DTO.OrderDTO;
 import com.webdigital.DTO.OrderDetailDTO;
+import com.webdigital.DTO.OrderDetailProduct;
 import com.webdigital.DTO.OrderRequest;
 import com.webdigital.DTO.OrderStatus;
 import com.webdigital.Model.Order;
@@ -43,12 +44,17 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    // Xem chi tiết đơn hàng
     @GetMapping("/details/{orderID}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long orderID) {
-        Optional<Order> order = orderService.getOrderById(orderID);
-        return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getOrderDetailById(@PathVariable Long orderID) {
+        List<OrderDetail> orderDetail = detailRepository.findByOrderOrderID(orderID);
+        
+        if (orderDetail.size()!=0) {
+            return ResponseEntity.ok(ConvertToOrderDetailProduct(orderDetail));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
 //    // Tạo đơn hàng mới
 //    @PostMapping
@@ -136,5 +142,21 @@ public class OrderController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+    
+    private List<OrderDetailProduct> ConvertToOrderDetailProduct(List<OrderDetail> list)
+    {
+    	List<OrderDetailProduct> listNew=new ArrayList<OrderDetailProduct>();
+    	for(OrderDetail o:list)
+    	{
+    		OrderDetailProduct od=new OrderDetailProduct();
+    		od.setOrderId(o.getOrder().getOrderID());
+    		od.setPrice(o.getPrice());
+    		od.setProductName(o.getProduct().getProductName());
+    		od.setQuantity(o.getQuantity());
+    		od.setProductImg(o.getProduct().getImageURL());
+    		listNew.add(od);
+    	}
+    	return listNew;
     }
 }
