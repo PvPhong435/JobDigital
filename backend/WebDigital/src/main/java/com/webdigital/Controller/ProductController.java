@@ -1,5 +1,11 @@
 package com.webdigital.Controller;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.webdigital.DAO.CategoryRepository;
 import com.webdigital.DAO.ProductRepository;
@@ -31,6 +38,9 @@ public class ProductController {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	// Thư mục lưu hình ảnh
+    private static final String UPLOAD_DIR = "E:/JobDigital/Front/img/";
 
 	// Lấy danh sách tất cả sản phẩm
 	@GetMapping
@@ -69,19 +79,38 @@ public class ProductController {
 
 	// Thêm sản phẩm mới nhận ProductCategoryDTO
 	@PostMapping("/admin")
-	public ResponseEntity<Product> createProductWithDTO(@RequestBody ProductCategoryDTO productDTO) {
-		Product product = new Product();
-		product.setProductName(productDTO.getProductName());
-		product.setPrice(productDTO.getPrice()); // Chuyển BigDecimal sang double
-		product.setStock(productDTO.getStock());
-		product.setDescription(productDTO.getDescription());
-		product.setImageURL(productDTO.getImageUrl());
-		product.setCategory(categoryRepository.getById(productDTO.getCategoryId()));
-		product.setCreatedAt(productDTO.getCreatedAt()); // Nếu frontend gửi createdAt
+	public ResponseEntity<Product> createProductWithDTO(
+            @RequestParam("productName") String productName,
+            @RequestParam("categoryId") Long categoryId,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam("stock") Integer stock,
+            @RequestParam("description") String description,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
+        
+		System.out.println("Received imageFile: " + (imageFile != null ? imageFile.getOriginalFilename() : "null")); // Debug
+        Product product = new Product();
+        product.setProductName(productName);
+        product.setPrice(price);
+        product.setStock(stock);
+        product.setDescription(description);
+        product.setCategory(categoryRepository.getById(categoryId));
+        product.setCreatedAt(LocalDateTime.now());
 
-		Product savedProduct = productRepository.save(product);
-		return ResponseEntity.ok(savedProduct);
-	}
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+            Path filePath = Paths.get(UPLOAD_DIR + fileName);
+            Files.createDirectories(filePath.getParent()); // Tạo thư mục nếu chưa tồn tại
+            Files.write(filePath, imageFile.getBytes());
+            product.setImageURL(fileName); // Lưu tên file vào database
+        }
+        else
+        {
+        	System.out.println("No image file received");
+        }
+
+        Product savedProduct = productRepository.save(product);
+        return ResponseEntity.ok(savedProduct);
+    }
 
 	// Cập nhật thông tin sản phẩm
 	@PutMapping("/{id}")
@@ -106,25 +135,42 @@ public class ProductController {
 
 	// Cập nhật thông tin sản phẩm nhận ProductCategoryDTO
 	@PutMapping("/admin/{id}")
-	public ResponseEntity<Product> updateProductWithDTO(@PathVariable Long id,
-			@RequestBody ProductCategoryDTO productDTO) {
-		Optional<Product> optionalProduct = productRepository.findById(id);
+	public ResponseEntity<Product> updateProductWithDTO(
+            @PathVariable Long id,
+            @RequestParam("productName") String productName,
+            @RequestParam("categoryId") Long categoryId,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam("stock") Integer stock,
+            @RequestParam("description") String description,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
+        
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product existingProduct = optionalProduct.get();
+            existingProduct.setProductName(productName);
+            existingProduct.setPrice(price);
+            existingProduct.setStock(stock);
+            existingProduct.setDescription(description);
+            existingProduct.setCategory(categoryRepository.getById(categoryId));
 
-		if (optionalProduct.isPresent()) {
-			Product existingProduct = optionalProduct.get();
-			existingProduct.setProductName(productDTO.getProductName());
-			existingProduct.setPrice(productDTO.getPrice()); // Chuyển BigDecimal sang double
-			existingProduct.setStock(productDTO.getStock());
-			existingProduct.setDescription(productDTO.getDescription());
-			existingProduct.setImageURL(productDTO.getImageUrl());
-			existingProduct.setCategory(categoryRepository.getById(productDTO.getCategoryId()));
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+                Path filePath = Paths.get(UPLOAD_DIR + fileName);
+                Files.createDirectories(filePath.getParent());
+                Files.write(filePath, imageFile.getBytes());
+                // Xóa file cũ nếu cần
+                if (existingProduct.getImageURL() != null) {
+                    Files.deleteIfExists(Paths.get(UPLOAD_DIR + existingProduct.getImageURL()));
+                }
+                existingProduct.setImageURL(fileName);
+            }
 
-			Product updatedProduct = productRepository.save(existingProduct);
-			return ResponseEntity.ok(updatedProduct);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
+            Product updatedProduct = productRepository.save(existingProduct);
+            return ResponseEntity.ok(updatedProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 	// Xóa sản phẩm theo ID
 	@DeleteMapping("/{id}")
