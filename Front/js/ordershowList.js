@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Không tìm thấy thông tin người dùng");
         return;
     }
+    if (user.role === "Customer") {
+        document.getElementById("sidebar").classList.add("hidden");
+    }
     document.getElementById("user-name").innerText=user.fullName;
 
     const apiUrl = `http://localhost:8080/api/orders/${user.userID}`;

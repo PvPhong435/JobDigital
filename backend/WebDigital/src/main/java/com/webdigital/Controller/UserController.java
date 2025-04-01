@@ -1,5 +1,6 @@
 package com.webdigital.Controller;
 
+import com.webdigital.DAO.UserRepository;
 import com.webdigital.Model.User;
 import com.webdigital.Service.UserService;
 
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class UserController {
 	 @Autowired
 	    private UserService userService;
+	 
+	 @Autowired
+	 private UserRepository userRepository;
 	 
 	// Lấy thông tin người dùng theo email
 	 @GetMapping("/email/{email}")
@@ -70,11 +74,29 @@ public class UserController {
 
 	    // Cập nhật thông tin người dùng
 	    @PutMapping("/{id}")
-	    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-	        Optional<User> updatedUser = userService.updateUser(id, userDetails);
-	        return updatedUser.map(ResponseEntity::ok)
-	                          .orElseGet(() -> ResponseEntity.notFound().build());
+	    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+	        Optional<User> userOpt = userRepository.findById(id);
+	        if (!userOpt.isPresent()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User không tồn tại!");
+	        }
+
+	        User user = userOpt.get();
+	        user.setUsername(updatedUser.getUsername());
+	        user.setEmail(updatedUser.getEmail());
+	        user.setFullName(updatedUser.getFullName());
+	        user.setPhone(updatedUser.getPhone());
+	        user.setAddress(updatedUser.getAddress());
+	        user.setRole(updatedUser.getRole());
+
+	        // Nếu không có password thì giữ nguyên
+	        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+	            user.setPassword(updatedUser.getPassword());
+	        }
+
+	        userRepository.save(user);
+	        return ResponseEntity.ok(user);
 	    }
+
 
 	    // Xóa người dùng theo ID
 	    @DeleteMapping("/{id}")

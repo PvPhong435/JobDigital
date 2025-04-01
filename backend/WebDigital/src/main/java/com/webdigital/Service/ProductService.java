@@ -1,7 +1,10 @@
 package com.webdigital.Service;
 
+import com.webdigital.Model.Category;
 import com.webdigital.Model.Product;
+import com.webdigital.DAO.CategoryRepository;
 import com.webdigital.DAO.ProductRepository;
+import com.webdigital.DTO.ProductCategoryDTO;
 import com.webdigital.DTO.ProductDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public List<Product> getProductsByCategory(Long categoryID) {
         return productRepository.findByCategory_CategoryID(categoryID);
@@ -62,5 +68,22 @@ public class ProductService {
         }
 
         return detailedProducts;
+    }
+    
+    public Product addNewProductAdmin(ProductCategoryDTO productAdd)
+    {
+    	Category category=categoryRepository.getById(productAdd.getCategoryId());
+    	Product product= new Product();
+    	product.setCategory(category);
+    	product.setCreatedAt(productAdd.getCreatedAt());
+    	product.setDescription(productAdd.getDescription());
+    	product.setImageURL(productAdd.getImageUrl());
+    	product.setPrice(productAdd.getPrice());
+    	product.setProductID(productAdd.getProductId());
+    	product.setProductName(productAdd.getProductName());
+    	product.setStock(productAdd.getStock());
+    	
+    	return productRepository.save(product);
+    	
     }
 }
