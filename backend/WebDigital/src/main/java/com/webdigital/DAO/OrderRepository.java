@@ -10,4 +10,7 @@ import com.webdigital.Model.Order;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findByUser_UserID(Long userID);
+	
+//	// (Tùy chọn) Lấy tất cả orders và sắp xếp theo ngày tạo
+//    List<Order> findAllByOrderByorderDateDesc();
 }

@@ -3,14 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Bảng điều khiển</title>
+    <title>Quản lý đơn hàng</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="/js/ordershowList.js"></script>
+    <script defer src="/js/OrderAdmin.js"></script>
     <link href="/css/cart.css" rel="stylesheet"/>
     <script defer src="/js/product.js"></script>
     <script>
       function togglePopup() {
         document.getElementById("popup-form").classList.toggle("hidden");
+      }
+      function toggleEditStatusPopup() {
+        document.getElementById("edit-status-popup").classList.toggle("hidden");
       }
     </script>
     <link
@@ -30,19 +33,17 @@
                   <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
               </div>
               <div id="cart-container">
-                      <button id="cart-button"><i class="fas fa-shopping-cart text-gray-600"></i></button>
-                  <ul id="cart-list"  class="hidden" ></ul>
+                  <button id="cart-button"><i class="fas fa-shopping-cart text-gray-600"></i></button>
+                  <ul id="cart-list" class="hidden"></ul>
               </div>
-              
               <div class="flex items-center space-x-4">
-                  
                  <a id="login-Button" class="bg-[#96644b] hover:bg-[#8a4a3a] text-white py-2 px-4 rounded-full flex-1 text-center text-wegith-bold" href="login.html"> <i style="color: white;" class="fas fa-user text-gray-600"> Login</i></a>
                  <div id="user-info" style="display: none;">
                   <i class="fas fa-user text-gray-600"></i>
                   <a id="user-id" href="OrderShow.html">8</a>
                   <a id="user-name" href="OrderShow.html">Guest</a>
                   <button id="logout-Button" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-full">Đăng xuất</button>
-              </div>
+                 </div>
               </div>
           </div>
       </div>
@@ -51,16 +52,14 @@
               <div class="flex justify-between w-full">
                   <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="About.html">
                        Giới Thiệu
-                  
                   </a>
                   <a class="text-gray-700 hover:text-gray-900 py-2 px-4 flex-1 text-center" href="shop2Product.html">
                       Các Sản Phẩm
-                  
                   </a>
               </div>
           </div>
       </nav>
-  </header>
+    </header>
     <div class="flex">
       <!-- Thanh bên -->
       <div id="sidebar" class="w-72 min-h-screen p-6 flex flex-col items-center bg-white">
@@ -71,7 +70,7 @@
           </li>
           <li class="flex items-center text-white text-lg">
             <i class="fas fa-list-alt mr-4"></i>
-            <a href="OrderAdmin.html">Quản Lý toàn bộ Hóa Đơn</a>
+            <a href="OrderShow.html">Quản Lý Hóa Đơn của account</a>
           </li>
           <li class="flex items-center text-white text-lg">
             <i class="fas fa-box mr-4"></i>
@@ -95,10 +94,9 @@
 
       <!-- Nội dung chính -->
       <div class="flex-1 p-6">
-
         <div class="p-6">
           <h1 class="text-2xl font-bold mb-4">
-            Quản lý đơn hàng của người dùng <i id="user-name">Guest</i>
+            Quản lý tất cả đơn hàng 
             <i id="user-Id" style="display: none;">8</i>
           </h1>
           <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -107,13 +105,15 @@
                 <tr>
                   <th class="py-3 px-6 text-left">ID đơn hàng</th>
                   <th class="py-3 px-6 text-left">ID người dùng</th>
+                  <th class="py-3 px-6 text-left">Tên người dùng</th>
                   <th class="py-3 px-6 text-left">Ngày đặt hàng</th>
                   <th class="py-3 px-6 text-left">Tổng đơn hàng</th>
+                  <th class="py-3 px-6 text-left">Trạng thái</th>
                   <th class="py-3 px-6 text-left">Thao tác</th>
                 </tr>
               </thead>
               <tbody id="orderTableBody" class="text-gray-600 text-sm font-light">
-                <!-- Dữ liệu sẽ được thêm vào đây từ ordershowList.js -->
+                <!-- Dữ liệu sẽ được thêm vào đây từ OrderAdmin.js -->
               </tbody>
             </table>
           </div>
@@ -130,6 +130,26 @@
         </div>
         <div class="flex justify-end space-x-2 mt-4">
           <button type="button" onclick="togglePopup()" class="bg-gray-400 text-white px-4 py-2 rounded">Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup Chỉnh sửa trạng thái -->
+    <div id="edit-status-popup" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        <h2 class="text-xl font-bold mb-4">Chỉnh sửa trạng thái đơn hàng</h2>
+        <div>
+          <label for="statusSelect" class="block text-sm font-medium text-gray-700">Chọn trạng thái mới:</label>
+          <select id="statusSelect" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option value="Completed">Thành công</option>
+            <option value="Cancelled">Không thành công</option>
+            <option value="Pending">Chờ xác nhận</option>
+            <option value="Processing">Đang thực hiện</option>
+          </select>
+        </div>
+        <div class="flex justify-end space-x-2 mt-4">
+          <button type="button" onclick="toggleEditStatusPopup()" class="bg-gray-400 text-white px-4 py-2 rounded">Hủy</button>
+          <button id="saveStatusBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Lưu</button>
         </div>
       </div>
     </div>

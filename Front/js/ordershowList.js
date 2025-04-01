@@ -50,13 +50,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function getStatusClass(status) {
-        return status === "completed" ? "text-green-500" :
+        return status === "Completed" ? "text-green-500" :
                status === "Cancelled" ? "text-red-500" :
                "text-yellow-500";
     }
 
     function formatStatus(status) {
-        return status === "completed" ? "Thành công" :
+        return status === "Completed" ? "Thành công" :
                status === "Cancelled" ? "Không thành công" :
                "Chờ xác nhận";
     }

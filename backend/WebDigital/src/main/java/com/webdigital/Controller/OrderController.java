@@ -3,12 +3,14 @@ package com.webdigital.Controller;
 import com.webdigital.DAO.OrderDetailRepository;
 import com.webdigital.DAO.OrderRepository;
 import com.webdigital.DAO.ProductRepository;
+import com.webdigital.DTO.OrderAdminDTO;
 import com.webdigital.DTO.OrderCreate;
 import com.webdigital.DTO.OrderDTO;
 import com.webdigital.DTO.OrderDetailDTO;
 import com.webdigital.DTO.OrderDetailProduct;
 import com.webdigital.DTO.OrderRequest;
 import com.webdigital.DTO.OrderStatus;
+import com.webdigital.DTO.UpdateOrderStatusDTO;
 import com.webdigital.Model.Order;
 import com.webdigital.Model.OrderDetail;
 import com.webdigital.Model.Product;
@@ -42,6 +44,33 @@ public class OrderController {
     public ResponseEntity<List<Order>> getOrdersByUser(@PathVariable Long userID) {
         List<Order> orders = orderService.getOrdersByUser(userID);
         return ResponseEntity.ok(orders);
+    }
+    
+    @GetMapping()
+    public ResponseEntity<?> getAllOrder()
+    {
+    	List<Order> orders = orderService.getAll();
+    	return ResponseEntity.ok(orders);
+    }
+    
+ // Endpoint để lấy tất cả orders cho admin
+    @GetMapping("/admin")
+    public ResponseEntity<List<OrderAdminDTO>> getAllOrdersForAdmin() {
+        List<OrderAdminDTO> orders = orderService.getAllOrdersForAdmin();
+        return ResponseEntity.ok(orders);
+    }
+    
+ // Endpoint để cập nhật trạng thái đơn hàng
+    @PutMapping("/{orderId}/status")
+    public ResponseEntity<String> updateOrderStatus(
+            @PathVariable Long orderId,
+            @RequestBody UpdateOrderStatusDTO updateOrderStatusDTO) {
+        try {
+            orderService.updateOrderStatus(orderId, updateOrderStatusDTO);
+            return ResponseEntity.ok("Cập nhật trạng thái thành công!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Lỗi khi cập nhật trạng thái: " + e.getMessage());
+        }
     }
 
     @GetMapping("/details/{orderID}")
@@ -123,10 +152,6 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("🚨 Lỗi hệ thống: " + e.getMessage());
         }
     }
-
-
-    
-    
     
     // Cập nhật trạng thái đơn hàng
     @PutMapping("/update/{orderID}")

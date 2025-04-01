@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             userId: Number(user.userID),
             orderDate: new Date().toISOString().replace("Z", "").split(".")[0], // Ngày đặt hàng (ISO format)
             totalAmount: Number(totalPriceAll), // Tổng tiền (có thể cập nhật)
-            status: "completed" // Trạng thái đơn hàng (pending, completed, canceled, etc.)
+            status: "Pending" // Trạng thái đơn hàng (pending, completed, canceled, etc.)
         };
         if (productList.length === 0) {
             alert("Bạn chưa chọn sản phẩm nào! Vui lòng chọn sản phẩm trước khi đặt hàng.");
