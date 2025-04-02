@@ -7,14 +7,16 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.webdigital.DTO.EmailOTP;
+
 @Service
 public class MailAuthService {
 	@Autowired
     private JavaMailSender mailSender;
 	
-	public void sendVerificationEmail(Map<String, String> request) {
-        String email = request.get("email");
-        String verificationCode = request.get("verificationCode");
+	public void sendVerificationEmail(EmailOTP request) {
+        String email = request.getEmail();
+        String verificationCode = request.getOtp();
 
         if (email == null || verificationCode == null) {
             throw new IllegalArgumentException("Email và mã xác thực không được để trống!");

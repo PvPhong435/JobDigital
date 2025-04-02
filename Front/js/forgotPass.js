@@ -22,7 +22,10 @@ function sendVerificationCode() {
     })
         .then(response => {
             if (!response.ok) {
+                alert("Không tìm thấy người dùng với email này!")
+                location.reload(); // Load lại trang sau khi thông báo
                 throw new Error('Không tìm thấy người dùng với email này!');
+                
             }
             else {
                 
@@ -31,10 +34,9 @@ function sendVerificationCode() {
         })
         .then(user => {
             userPresent= user;
-            localStorage.setItem("user",user);
-            console.log(user);
+            localStorage.setItem("user",JSON.stringify(user));
             sendOTPtoEmail(user,email);
-            window.location.href = "OTP.html";
+            //window.location.href = "OTP.html";
         })
         .catch(error => {
             console.error('Có lỗi xảy ra:', error);
@@ -52,13 +54,13 @@ function sendOTPtoEmail(user,email)
         // Lưu mã xác thực vào localStorage (để kiểm tra sau khi người dùng nhập)
         localStorage.setItem('verificationCode', verificationCode);
         localStorage.setItem('userEmail', email); // Lưu email người dùng
-
+        console.log(user);
         // Gửi mã xác thực đến server
         const data = {
             email: email,
-            verificationCode: verificationCode,
+            otp: String(verificationCode),
         };
-
+        console.log(data);
         fetch('http://localhost:8080/api/password-reset/sendVerificationCode', {
             method: 'POST',
             headers: {
@@ -68,13 +70,20 @@ function sendOTPtoEmail(user,email)
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Gửi mã xác thực không thành công!');
+                    alert("Gửi mã xác thực không thành công");
+                    console.log(response);
+                    // throw new Error('Gửi mã xác thực không thành công!');
+                }
+                else
+                {
+                    alert("Gửi mã xác thực thành công");
                 }
                 // Chuyển đến trang nhập mã xác thực
-                window.location.href = 'verify-code.html';
+                window.location.href = 'OTP.html';
             })
             .catch(error => {
-                console.error('Có lỗi xảy ra khi gửi mã:', error);
+                console.log(error)
+                console.error('Có lỗi xảy ra khi gửi mã:', error.message);
             });
     }
 }

@@ -15,13 +15,17 @@ import com.webdigital.Model.Order;
 import com.webdigital.Model.OrderDetail;
 import com.webdigital.Model.Product;
 import com.webdigital.Service.OrderService;
+import com.webdigital.Service.StatisticsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -38,6 +42,9 @@ public class OrderController {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private StatisticsService statisticsService;
 
     // Lấy danh sách đơn hàng của người dùng
     @GetMapping("/{userID}")
@@ -83,14 +90,6 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-//    // Tạo đơn hàng mới
-//    @PostMapping
-//    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
-//        Order order = orderService.createOrder(orderDTO);
-//        return ResponseEntity.ok(order);
-//    }
     
     //Tạo order mơi 
     @PostMapping("/addOrder")
@@ -169,6 +168,38 @@ public class OrderController {
         return ResponseEntity.notFound().build();
     }
     
+ // Endpoint để lấy dữ liệu thống kê tổng quan
+    @GetMapping("/statistics/overview")
+    public ResponseEntity<Map<String, Object>> getStatisticsOverview() {
+        Map<String, Object> overview = statisticsService.getStatisticsOverview();
+        return ResponseEntity.ok(overview);
+    }
+
+    // Endpoint để lấy doanh thu 12 tháng qua
+    @GetMapping("/statistics/revenue")
+    public ResponseEntity<Map<String, Double>> getRevenueLast12Months() {
+        Map<String, Double> revenue = statisticsService.getRevenueLast12Months();
+        return ResponseEntity.ok(revenue);
+    }
+    
+ // Endpoint để lấy doanh thu theo tháng được chọn
+    @GetMapping("/statistics/revenue/month")
+    public ResponseEntity<Double> getRevenueByMonth(@RequestParam("month") String month) {
+        try {
+            double revenue = statisticsService.getRevenueByMonth(month);
+            return ResponseEntity.ok(revenue);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(0.0);
+        }
+    }
+
+    // Endpoint để lấy phân bố người dùng
+    @GetMapping("/statistics/users")
+    public ResponseEntity<Map<String, Integer>> getUserDistribution() {
+        Map<String, Integer> userDistribution = statisticsService.getUserDistribution();
+        return ResponseEntity.ok(userDistribution);
+    }
+    
     private List<OrderDetailProduct> ConvertToOrderDetailProduct(List<OrderDetail> list)
     {
     	List<OrderDetailProduct> listNew=new ArrayList<OrderDetailProduct>();
@@ -183,5 +214,27 @@ public class OrderController {
     		listNew.add(od);
     	}
     	return listNew;
+    }
+
+ // Endpoint để lấy doanh thu theo từng ngày trong tháng
+    @GetMapping("/statistics/revenue/days")
+    public ResponseEntity<Map<String, Double>> getRevenueByDayInMonth(@RequestParam("month") String month) {
+        try {
+            Map<String, Double> revenue = statisticsService.getRevenueByDayInMonth(month);
+            return ResponseEntity.ok(revenue);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new HashMap<>());
+        }
+    }
+    
+ // Endpoint để lấy phân bố người dùng trong tháng được chọn
+    @GetMapping("/statistics/users/month")
+    public ResponseEntity<Map<String, Integer>> getUserDistributionByMonth(@RequestParam("month") String month) {
+        try {
+            Map<String, Integer> userDistribution = statisticsService.getUserDistributionByMonth(month);
+            return ResponseEntity.ok(userDistribution);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new HashMap<>());
+        }
     }
 }

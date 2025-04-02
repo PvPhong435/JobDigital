@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Bảng điều khiển</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    .charts {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-gap: 20px;
+      width: 100%;
+      padding: 20px;
+      padding-top: 0;
+    }
+    .chart {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+      width: 100%;
+    }
+  </style>
+  <body class="bg-gray-100">
+    <div class="flex">
+      <!-- Thanh bên -->
+      <div class="w-72 min-h-screen p-6 flex flex-col items-center bg-white">
+        <div class="mb-12">
+          <img
+            alt="Logo"
+            class="w-40"
+            height="80"
+            src="../img/logo-noi-that.jpg"
+            width="160"
+          />
+        </div>
+        <ul class="space-y-6 w-full bg-[#96644b] p-6 rounded-lg">
+            <li class="flex items-center text-white text-lg">
+                <i class="fas fa-th-large mr-4"></i>
+                <a href="index.html">Bảng điều kiển</a>
+              </li>
+              <li class="flex items-center text-white text-lg">
+                <i class="fas fa-list-alt mr-4"></i>
+                <a href="category.html">Danh mục</a>
+              </li>
+          <li class="flex items-center text-white text-lg">
+            <i class="fas fa-box mr-4"></i>
+            <a href="products.html">Sản phẩm</a>
+          </li>
+          <li class="flex items-center text-white text-lg">
+            <i class="fas fa-user mr-4"></i>
+            <a href="user.html">Người dùng</a>
+          </li>
+          <li class="flex items-center text-white text-lg">
+            <i class="fas fa-dollar-sign mr-4"></i>
+            <a href="revenue.html">Doanh thu</a>
+          </li>
+
+          <li class="flex items-center text-white text-lg">
+            <i class="fas fa-sign-out-alt mr-4"></i>
+            Đăng xuất
+          </li>
+        </ul>
+      </div>
+      <!-- Nội dung chính -->
+      <div class="flex-1 p-6">
+        <!-- Thanh tìm kiếm -->
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex-1 flex justify-center">
+            <input
+              class="p-2 rounded border border-gray-300 w-1/2"
+              placeholder="Tìm kiếm..."
+              type="text"
+            />
+          </div>
+          <div class="flex items-center space-x-4">
+            <i class="fas fa-bell text-[#96644b]"></i>
+            <img
+              alt="Ảnh đại diện người dùng"
+              class="rounded-full w-10 h-10"
+              height="40"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADACAMAAAB/Pny7AAAAA..."
+              width="40"
+            />
+          </div>
+        </div>
+        <!-- Thẻ thống kê -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white p-4 rounded shadow">
+            <div class="text-3xl font-bold text-[#96644b]">123</div>
+            <div class="text-gray-600">Người dùng</div>
+            <i class="fas fa-user text-[#96644b] text-2xl"></i>
+          </div>
+          <div class="bg-white p-4 rounded shadow">
+            <div class="text-3xl font-bold text-[#96644b]">123</div>
+            <div class="text-gray-600">Danh mục</div>
+            <i class="fas fa-list-alt text-[#96644b] text-2xl"></i>
+          </div>
+          <div class="bg-white p-4 rounded shadow">
+            <div class="text-3xl font-bold text-[#96644b]">1217</div>
+            <div class="text-gray-600">Sản phẩm</div>
+            <i class="fas fa-box text-[#96644b] text-2xl"></i>
+          </div>
+          <div class="bg-white p-4 rounded shadow">
+            <div class="text-3xl font-bold text-[#96644b]">1217</div>
+            <div class="text-gray-600">Doanh thu</div>
+            <i class="fas fa-dollar-sign text-[#96644b] text-2xl"></i>
+          </div>
+        </div>
+        <!-- Biểu đồ -->
+        <div class="charts">
+          <div class="chart">
+            <h2>Doanh thu (12 tháng qua)</h2>
+            <canvas id="linechart"></canvas>
+          </div>
+          <div class="chart" id="doughnut-chart">
+            <h2>Người dùng</h2>
+            <canvas id="doughnut"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+    <script src="chart.js"></script>
+  </body>
+</html>
