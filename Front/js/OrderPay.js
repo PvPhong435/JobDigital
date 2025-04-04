@@ -1,6 +1,16 @@
 let user;
 let productList;
 let order;
+let userInfor;
+
+let dataSend={
+    userName:null,
+    phone:null,
+    email:null,
+    address:null,
+    userId:null,
+    productList,
+};
 
 document.addEventListener("DOMContentLoaded", function () {
     user = JSON.parse(localStorage.getItem("user"));
@@ -8,13 +18,19 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function datHang() {
-    const userInfor = {
+    userInfor = {
         userName: document.getElementById("hoTen").value,
         phone: document.getElementById("sdt").value,
         email: document.getElementById("Email").value,
         address: document.getElementById("DiaChi").value,
         userId: document.getElementById("user-Id").innerText
     };
+    dataSend.address=document.getElementById("DiaChi").value;
+    dataSend.userName=document.getElementById("hoTen").value;
+    dataSend.phone=document.getElementById("sdt").value;
+    dataSend.email=document.getElementById("Email").value;
+    dataSend.userId=document.getElementById("user-Id").innerText;
+
 
     // Thêm order mới
     try {
@@ -24,42 +40,12 @@ async function datHang() {
         alert("Lỗi khi thêm order mới")
     }
 
-    // // Tạo thông tin đơn hàng
-    // order = {
-    //     userId: userInfor.userId,
-    //     orderDate: new Date().toISOString().replace("T", " ").substring(0, 19), // Định dạng thời gian chuẩn
-    //     totalAmount: productList.reduce((sum, p) => sum + (p.price * p.quantity), 0),
-    //     status: "Pending",
-    //     products: productList
-    // };
-
-    // try {
-    //     // Gửi đơn hàng lên Backend
-    //     const response = await fetch("http://localhost:8080/api/order/create", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify(order)
-    //     });
-
-    //     if (!response.ok) throw new Error("Lỗi khi tạo đơn hàng!");
-
-    //     localStorage.removeItem("productList");
-
-    //     // Gửi email xác nhận đơn hàng
-    //     const emailResponse = await fetch(`http://localhost:8080/api/email/send?to=${userInfor.email}&subject=Đơn hàng của bạn&text=Đơn hàng đã đặt thành công!`);
-    //     if (!emailResponse.ok) throw new Error("Lỗi khi gửi email!");
-
-    //     alert("Đơn hàng đã được đặt và email xác nhận đã gửi!");
-    //     window.location.href = "Order.html"; // Chuyển trang sau khi đặt hàng thành công
-    // } catch (error) {
-    //     console.error("Lỗi:", error);
-    //     alert("Đặt hàng thất bại!");
-    // }
 }
 
 function LoadDuLieuHienThi() {
     // Lấy danh sách sản phẩm từ localStorage
     productList = JSON.parse(localStorage.getItem("productList")) || [];
+    dataSend.productList=productList;
     console.log("Danh sách sản phẩm:", productList);
 
     // Lấy thông tin đơn hàng từ localStorage
@@ -120,6 +106,7 @@ async function addOrder() {
 }
 
 async function addOrderDetail(orderID, productList) {
+    console.log(dataSend);
     try {
         const response = await fetch(`http://localhost:8080/api/orders/addOrderDetail/${orderID}`, {
             method: "POST",
@@ -130,6 +117,7 @@ async function addOrderDetail(orderID, productList) {
         if (!response.ok) throw new Error("Lỗi khi thêm OrderDetail!");
         else
         {
+            sendMail();
             alert("Thanh toán thành công");
             window.location.href = "OrderShow.html";
 
@@ -142,4 +130,26 @@ async function addOrderDetail(orderID, productList) {
     }
 }
 
+
+async function sendMail()
+{
+    try {
+        const response = await fetch("http://localhost:8080/api/email/sendOrderMail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dataSend)
+        });
+
+        const messageElement = document.getElementById("message");
+        if (response.ok) {
+            alert("✅ Email xác nhận đã được gửi!");
+        } else {
+            const errorText = await response.text();
+            alert("❌ Lỗi gửi email: " + errorText);
+        }
+    } catch (error) {
+        console.error("Lỗi:", error);
+        alert("❌ Không thể kết nối đến server.");
+    }
+}
 
