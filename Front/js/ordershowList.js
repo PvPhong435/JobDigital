@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (user.role === "Customer") {
         document.getElementById("sidebar").classList.add("hidden");
     }
+    if(user.role==="Employee")
+        {
+            document.getElementsByClassName("doanhthu").classList.add("hidden");
+        }
     document.getElementById("user-name").innerText=user.fullName;
 
     const apiUrl = `http://localhost:8080/api/orders/${user.userID}`;
