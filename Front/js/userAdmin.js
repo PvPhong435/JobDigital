@@ -123,4 +123,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Load danh sách người dùng khi trang được tải
     fetchUsers();
+    let user=localStorage.getItem("user");
+    user = JSON.parse(user);
+    console.log("thông tin user"+user);
+    if (user.role === "Employee") {
+        const elements = document.getElementsByClassName("doanhthu");
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].style.display = "none";
+        }
+    }
 });

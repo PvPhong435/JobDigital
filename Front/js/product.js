@@ -114,9 +114,9 @@ function fetchProducts2() {
 
 // Tải sản phẩm khi trang được tải
 document.addEventListener("DOMContentLoaded", function () {
+    LoadUser();
     fetchProducts();
     fetchProducts2();
-    LoadUser()
     document.getElementById("logout-Button").addEventListener("click", logoutUser);
     // Thêm sự kiện click vào giỏ hàng
     const cartContainer = document.getElementById("cart-container");
@@ -179,6 +179,14 @@ function LoadUser() {
     
         // Lưu vào localStorage dưới dạng JSON
         localStorage.setItem("user", JSON.stringify(userGuest));
+        console.log("ẩn doanh thu nếu là nhân viên: "+user.role);
+        if (user.role === "Employee") {
+            const elements = document.getElementsByClassName("doanhthu");
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].style.display = "none";
+            }
+        }
+        
     
         // Gán user từ object guest
         user = userGuest;
